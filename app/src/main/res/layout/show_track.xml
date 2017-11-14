@@ -126,96 +126,80 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/footer_track"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:id="@+id/footer_track"
         android:background="#FF172A3A"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <ImageButton
+                android:id="@+id/ib_backtrack"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/btn_back"
+                android:cropToPadding="true" />
+
+            <ImageButton
+                android:id="@+id/ib_playtrack"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/btn_play"
+                android:cropToPadding="true" />
+
+            <ImageButton
+                android:id="@+id/ib_nexttrack"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/btn_next"
+                android:cropToPadding="true" />
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/cover" />
-
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="50dp"
-                android:orientation="vertical">
+                android:id="@+id/tv_trackstart"
+                android:text="0:00"
+                android:textColor="#fff"
+                android:textSize="10sp"
+                android:fontFamily="@font/montserrat"/>
 
-                <TextView
-                    android:id="@+id/tv_mainsong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:fontFamily="@font/montserrat"
-                    android:paddingTop="15dp"
-                    android:singleLine="true"
-                    android:text="Townie"
-                    android:textColor="#fff"
-                    android:textSize="20dp" />
+            <SeekBar
+                android:id="@+id/sb_progress"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:progress="1" />
 
-                <TextView
-                    android:id="@+id/tv_mainartist"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:fontFamily="@font/montserrat"
-                    android:singleLine="true"
-                    android:text="Mitski"
-                    android:textColor="#fff"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/ib_back"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/btn_back"
-                    android:cropToPadding="true" />
-
-                <ImageButton
-                    android:id="@+id/ib_play"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/btn_play"
-                    android:cropToPadding="true" />
-
-                <ImageButton
-                    android:id="@+id/ib_next"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/btn_next"
-                    android:cropToPadding="true" />
-            </LinearLayout>
+                android:id="@+id/tv_trackend"
+                android:text="0:00"
+                android:textColor="#fff"
+                android:textSize="10sp"
+                android:fontFamily="@font/montserrat"/>
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
