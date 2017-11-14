@@ -70,6 +70,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:src="@drawable/cover"
+                    android:id="@+id/main_album"
                     android:layout_marginLeft="10dp"/>
 
                 <LinearLayout
@@ -85,7 +86,7 @@
                         android:id="@+id/tv_mainsong"
                         android:text="Townie"
                         android:textSize="20dp"
-                        android:fontFamily="@font/Montserrat"
+                        android:fontFamily="@font/montserrat"
                         android:textColor="#fff"
                         android:paddingTop="15dp"
                         android:ellipsize="marquee"
@@ -99,7 +100,7 @@
                         android:id="@+id/tv_mainartist"
                         android:text="Mitski"
                         android:textSize="15dp"
-                        android:fontFamily="@font/Montserrat"
+                        android:fontFamily="@font/montserrat"
                         android:textColor="#fff"
                         android:ellipsize="marquee"
                         android:singleLine="true"
@@ -142,10 +143,7 @@
 
             </LinearLayout>
 
-
         </RelativeLayout>
-
-
 
     </LinearLayout>
 

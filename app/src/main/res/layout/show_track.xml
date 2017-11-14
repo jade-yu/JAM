@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:id="@+id/st_layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:background="#172a3a"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JAM"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:layout_marginTop="9dp"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/beon"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/iv_search"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/search"
+            android:layout_marginLeft="290dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FF384E77"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/btn_goback"
+            android:background="@drawable/goback"
+            android:layout_gravity="center"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_tracksong"
+                android:textSize="15sp"
+                android:text="Townie"
+                android:fontFamily="@font/montserrat"
+                android:paddingTop="1dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="#ffffff"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_trackartist"
+                android:textSize="10sp"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginLeft="15dp"
+                android:text="Mitski"
+                android:textColor="#ffffff"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="392dp"
+        android:id="@+id/lyric_holder">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/iv_albumshow"
+            android:src="@drawable/cover"
+            />
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/tv_lyrics"-->
+            <!--android:text=""-->
+            <!--android:background="#88172A3A"/>-->
+
+        <ScrollView
+            android:id="@+id/scroller"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:fillViewport="true">
+
+            <TextView
+                android:id="@+id/tv_lyrics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:textSize="15sp"
+                android:textColor="#fff"
+                android:textAlignment="center"
+                android:fontFamily="@font/montserrat"
+                android:text=""
+                android:background="#88172A3A"/>
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:id="@+id/footer_track"
+        android:background="#FF172A3A"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/cover" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="50dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_mainsong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="@font/montserrat"
+                    android:paddingTop="15dp"
+                    android:singleLine="true"
+                    android:text="Townie"
+                    android:textColor="#fff"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_mainartist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="@font/montserrat"
+                    android:singleLine="true"
+                    android:text="Mitski"
+                    android:textColor="#fff"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/ib_back"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/btn_back"
+                    android:cropToPadding="true" />
+
+                <ImageButton
+                    android:id="@+id/ib_play"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/btn_play"
+                    android:cropToPadding="true" />
+
+                <ImageButton
+                    android:id="@+id/ib_next"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/btn_next"
+                    android:cropToPadding="true" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
