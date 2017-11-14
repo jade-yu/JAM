@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/TabWidgetTheme">
+    android:theme="@style/TabWidgetTheme"
+    tools:context="edu.dlsu.mobapde.jam.Activities.SearchActivity">
 
 
     <LinearLayout
@@ -17,7 +19,7 @@
             android:layout_height="45dp"
             android:orientation="horizontal"
             android:background="#172a3a"
-           android:layout_gravity="center">
+            android:layout_gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
