@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background= "#FFA6A5BA"
+    android:layout_margin="20dp">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/iv_album"
+        android:src="@drawable/cover"/>
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:id="@+id/tv_albumname"
+        android:text="bury me at make out creek"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:id="@+id/tv_albumartist"
+        android:text="Mitski"
+        android:textColor="#fff"
+        android:textSize="13sp"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+
+
+</LinearLayout>
