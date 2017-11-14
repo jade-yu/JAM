@@ -1,13 +1,15 @@
-package edu.dlsu.mobapde.jam;
+package edu.dlsu.mobapde.jam.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import edu.dlsu.mobapde.jam.R;
+
+public class AlbumsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_album);
     }
 }

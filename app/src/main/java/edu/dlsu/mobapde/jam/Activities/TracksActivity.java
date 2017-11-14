@@ -1,7 +1,9 @@
-package edu.dlsu.mobapde.jam;
+package edu.dlsu.mobapde.jam.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import edu.dlsu.mobapde.jam.R;
 
 public class TracksActivity extends AppCompatActivity {
 
