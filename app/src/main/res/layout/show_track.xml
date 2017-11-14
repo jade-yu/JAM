@@ -19,17 +19,28 @@
             android:text="JAM"
             android:textColor="#fff"
             android:textSize="20sp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="6.5dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
             android:fontFamily="@font/beon"/>
 
+        <EditText
+            android:layout_width="240dp"
+            android:layout_height="25dp"
+            android:id="@+id/et_search"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edittext"
+            android:visibility="invisible"
+            />
+
+
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:id="@+id/iv_search"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/search"
-            android:layout_marginLeft="290dp"/>
+            android:layout_marginLeft="22dp"/>
 
     </LinearLayout>
 
