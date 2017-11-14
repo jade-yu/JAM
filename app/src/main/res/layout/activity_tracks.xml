@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edu.dlsu.mobapde.jam.TracksActivity">
+    tools:context="edu.dlsu.mobapde.jam.TracksActivity"
+    android:background= "#FFA6A5BA">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
