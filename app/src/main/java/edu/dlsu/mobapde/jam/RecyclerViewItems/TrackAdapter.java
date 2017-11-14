@@ -25,13 +25,13 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
 
     public class TrackViewHolder extends RecyclerView.ViewHolder {
         TextView tvSong, tvArtist;
-        ImageView ivIcon;
+        ImageView ivTrack;
 
         public TrackViewHolder(View itemView) {
             super(itemView);
             tvSong = itemView.findViewById(R.id.tv_song);
             tvArtist = itemView.findViewById(R.id.tv_artist);
-            ivIcon = itemView.findViewById(R.id.iv_track);
+            ivTrack = itemView.findViewById(R.id.iv_track);
         }
     }
 
@@ -45,9 +45,12 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
     public void onBindViewHolder(TrackViewHolder holder, int position) {
 
         Track currentTrack = data.get(position);
+
         holder.tvSong.setText(currentTrack.getTitle());
         holder.tvArtist.setText(currentTrack.getArtist());
-        holder.ivIcon.setImageResource(currentTrack.getAlbumcover());
+        if(currentTrack.getAlbumcover() != -1) {
+            holder.ivTrack.setImageResource(currentTrack.getAlbumcover());
+        }
 
         holder.itemView.setTag(currentTrack);
 
