@@ -2,22 +2,33 @@ package edu.dlsu.mobapde.jam.RecyclerViewItems;
 
 public class Track {
 
+    private long id;
     private String title;
     private String artist;
     private int albumcover;
 
     public Track() {};
 
-    public Track(String title, String artist) {
+    public Track(long id, String title, String artist) {
+        this.id = id;
         this.title = title;
         this.artist = artist;
         this.albumcover = -1;
     }
 
-    public Track(String title, String artist, int albumcover) {
+    public Track(long id, String title, String artist, int albumcover) {
+        this.id = id;
         this.title = title;
         this.artist = artist;
         this.albumcover = albumcover;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
