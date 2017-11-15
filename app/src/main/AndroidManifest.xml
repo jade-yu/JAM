@@ -25,7 +25,8 @@
         <activity android:name=".Fragments.TracksFragment" />
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.SearchLyricsActivity" />
-        <activity android:name=".Activities.SearchTrackActivity"></activity>
+        <activity android:name=".Activities.SearchTrackActivity" />
+        <activity android:name=".Activities.PlaySongActivity"></activity>
     </application>
 
 </manifest>

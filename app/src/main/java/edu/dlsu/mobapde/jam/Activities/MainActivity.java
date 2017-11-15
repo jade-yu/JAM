@@ -3,22 +3,25 @@ package edu.dlsu.mobapde.jam.Activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import edu.dlsu.mobapde.jam.Fragments.AlbumsFragment;
 import edu.dlsu.mobapde.jam.Fragments.ArtistsFragment;
 import edu.dlsu.mobapde.jam.Fragments.TracksFragment;
 import edu.dlsu.mobapde.jam.R;
+import edu.dlsu.mobapde.jam.RecyclerViewItems.Track;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     EditText etSearch;
     ImageView ivSearch;
 
+    FrameLayout tabContent;
+
     TabLayout tabLayout;
     TabLayout.Tab tracksTab, artistsTab, albumsTab, playlistsTab, favesTab;
 
@@ -39,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     TextView tvMainsong, tvMainartist;
     ImageButton ibBack, ibPlay, ibNext;
 
+    Track currentTrack;
+    ArrayList<Track> trackList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         etSearch = findViewById(R.id.et_search);
         ivSearch = findViewById(R.id.iv_search);
+
+        tabContent = findViewById(R.id.tabcontent);
 
         llFooter = findViewById(R.id.footer);
         ivMainAlbum = findViewById(R.id.main_album);
@@ -56,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         ibNext = findViewById(R.id.ib_next);
 
         initializeTabs();
+
+        if(currentTrack == null) {
+            llFooter.setVisibility(View.GONE);
+        }
 
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,10 +121,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //TODO fix initialization, change to TabLayout
-    public void initializeTabs() {
+    public void setCurrentTrack(Track track) {
+        if(currentTrack == null) {
+            llFooter.setVisibility(View.VISIBLE);
+        }
 
-        Intent tracksIntent, artistsIntent, albumsIntent, playlistsIntent, favesIntent;
+        currentTrack = track;
+
+        if(currentTrack.getAlbumcover() != -1) {
+            ivMainAlbum.setImageResource(currentTrack.getAlbumcover());
+        }
+        tvMainsong.setText(currentTrack.getTitle());
+        tvMainartist.setText(currentTrack.getArtist());
+    }
+
+    public void initializeTabs() {
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
 

@@ -1,12 +1,15 @@
 package edu.dlsu.mobapde.jam.Service;
 
 import android.app.Service;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -18,12 +21,21 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private ArrayList<Track> tracks;
     private int currentPosition;
 
+    private final IBinder musicBind = new MusicBinder();
+
     public void onCreate() {
         super.onCreate();
-        currentPosition = 0;
 
         player = new MediaPlayer();
         initializeMusicPlayer();
+    }
+
+    public void setTracks(ArrayList<Track> tracks) {
+        this.tracks = tracks;
+    }
+
+    public void setCurrentPosition(int index){
+        currentPosition = index;
     }
 
     public void initializeMusicPlayer() {
@@ -35,20 +47,38 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player.setOnErrorListener(this);
     }
 
-    public void setTracks(ArrayList<Track> tracks) {
-        this.tracks = tracks;
-    }
-
     public class MusicBinder extends Binder {
-        MusicService getService() {
+        public MusicService getService() {
             return MusicService.this;
         }
     }
 
-    //TODO onBind function
+    public void playTrack() {
+        player.reset();
+
+        Track track = tracks.get(currentPosition);
+        Uri trackUri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, track.getId());
+
+        try {
+            player.setDataSource(getApplicationContext(), trackUri);
+            Log.d("playTrack: ", track.getTitle());
+        } catch(Exception e){
+            Log.e("MUSIC SERVICE", "Error setting data source", e);
+        }
+
+        player.prepareAsync();
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return musicBind;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent){
+        player.stop();
+        player.release();
+        return false;
     }
 
     //TODO Listener methods
@@ -63,7 +93,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-
+    public void onPrepared(MediaPlayer mp) {
+        mp.start();
     }
 }
