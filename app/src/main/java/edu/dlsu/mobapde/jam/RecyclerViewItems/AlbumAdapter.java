@@ -47,7 +47,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         Album currentAlbum = data.get(position);
         holder.tvAlbum.setText(currentAlbum.getTitle());
         holder.tvArtist.setText(currentAlbum.getArtist());
-        holder.ivIcon.setImageResource(currentAlbum.getAlbumcover());
+        if(currentAlbum.getAlbumcover() != -1) {
+            holder.ivIcon.setImageResource(currentAlbum.getAlbumcover());
+        }
 
         holder.itemView.setTag(currentAlbum);
 

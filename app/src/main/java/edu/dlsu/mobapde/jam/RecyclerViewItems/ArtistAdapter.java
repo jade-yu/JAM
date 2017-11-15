@@ -50,7 +50,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
         if(currentArtist.getAlbums() > 1) {
             holder.tvAlbums.append("s");
         }
-        holder.ivIcon.setImageResource(currentArtist.getIcon());
+        if(currentArtist.getIcon() != -1) {
+            holder.ivIcon.setImageResource(currentArtist.getIcon());
+        }
 
         holder.itemView.setTag(currentArtist);
 
