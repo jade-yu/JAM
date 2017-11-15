@@ -3,6 +3,7 @@ package edu.dlsu.mobapde.jam.Activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     Track currentTrack;
     ArrayList<Track> trackList;
+    int currentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,30 +76,29 @@ public class MainActivity extends AppCompatActivity {
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo put functions
+                //todo implement search function
+
+                Intent i = new Intent(getBaseContext(), SearchActivity.class);
+                startActivity(i);
             }
         });
 
-        ivMainAlbum.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener oclPlaySong = new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                //todo put functions
-            }
-        });
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), PlaySongActivity.class);
+                i.putParcelableArrayListExtra("trackList", trackList);
+                i.putExtra("currentTrack", currentTrack);
+                i.putExtra("position", currentPosition);
 
-        tvMainsong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo put functions
+                startActivity(i);
             }
-        });
+        };
 
-        tvMainartist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo put functions
-            }
-        });
+        llFooter.setOnClickListener(oclPlaySong);
+        ivMainAlbum.setOnClickListener(oclPlaySong);
+        tvMainsong.setOnClickListener(oclPlaySong);
+        tvMainartist.setOnClickListener(oclPlaySong);
 
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +134,10 @@ public class MainActivity extends AppCompatActivity {
         }
         tvMainsong.setText(currentTrack.getTitle());
         tvMainartist.setText(currentTrack.getArtist());
+    }
+
+    public void setCurrentPosition(int pos) {
+        currentPosition = pos;
     }
 
     public void initializeTabs() {

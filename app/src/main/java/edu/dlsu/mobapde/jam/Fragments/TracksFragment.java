@@ -68,6 +68,7 @@ public class TracksFragment extends Fragment {
                 //Log.d("clickedtitle", t.getTitle());
                 Track t = tracks.get(position);
                 ((MainActivity) getActivity()).setCurrentTrack(t);
+                ((MainActivity) getActivity()).setCurrentPosition(position);
 
                 Intent i = new Intent(getActivity().getBaseContext(), PlaySongActivity.class);
                 i.putParcelableArrayListExtra("trackList", tracks);
