@@ -32,15 +32,14 @@ public class ArtistsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        //TODO fix recyclerView implementation
-        rvArtists = (RecyclerView) view.findViewById(R.id.rv_artists);
+        rvArtists = (RecyclerView) view.findViewById(R.id.rv_main);
 
         ArrayList<Artist> artists = getArtists();
 
         Log.d("artistsize", artists.size() + "");
 
         ArtistAdapter artistAdapter = new ArtistAdapter(artists);
-        rvArtists.setAdapter(artistAdapter);
+        rvArtists.swapAdapter(artistAdapter, false);
 
         artistAdapter.setOnItemClickListener(new ArtistAdapter.onItemClickListener() {
             @Override

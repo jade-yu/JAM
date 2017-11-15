@@ -3,9 +3,12 @@ package edu.dlsu.mobapde.jam.Fragments;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import edu.dlsu.mobapde.jam.Activities.MainActivity;
+import edu.dlsu.mobapde.jam.Activities.PlaySongActivity;
 import edu.dlsu.mobapde.jam.R;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.Track;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.TrackAdapter;
@@ -28,6 +33,7 @@ import edu.dlsu.mobapde.jam.RecyclerViewItems.TrackAdapter;
 public class TracksFragment extends Fragment {
 
     RecyclerView rvTracks;
+    TrackAdapter trackAdapter;
 
     public TracksFragment() {
 
@@ -46,21 +52,29 @@ public class TracksFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        //TODO fix recyclerView implementation
-        rvTracks = (RecyclerView) view.findViewById(R.id.rv_tracks);
+        rvTracks = (RecyclerView) view.findViewById(R.id.rv_main);
 
-        ArrayList<Track> tracks = getTracks();
+        final ArrayList<Track> tracks = getTracks();
 
         Log.d("tracksize", tracks.size() + "");
 
-        TrackAdapter trackAdapter = new TrackAdapter(tracks);
-        rvTracks.setAdapter(trackAdapter);
+        trackAdapter = new TrackAdapter(tracks);
+        rvTracks.swapAdapter(trackAdapter, false);
 
         trackAdapter.setOnItemClickListener(new TrackAdapter.onItemClickListener() {
             @Override
-            public void onItemClick(Track t) {
+            public void onItemClick(int position) {
                 //TODO onItemClick implementation
-                Log.d("clickedtitle", t.getTitle());
+                //Log.d("clickedtitle", t.getTitle());
+                Track t = tracks.get(position);
+                ((MainActivity) getActivity()).setCurrentTrack(t);
+
+                Intent i = new Intent(getActivity().getBaseContext(), PlaySongActivity.class);
+                i.putParcelableArrayListExtra("trackList", tracks);
+                i.putExtra("currentTrack", t);
+                i.putExtra("position", position);
+
+                startActivity(i);
             }
         });
 

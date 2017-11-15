@@ -32,8 +32,7 @@ public class AlbumsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        //TODO fix recyclerView implementation
-        rvAlbums = (RecyclerView) view.findViewById(R.id.rv_tracks);
+        rvAlbums = (RecyclerView) view.findViewById(R.id.rv_main);
 
         ArrayList<Album> albums = getAlbums();
 
@@ -41,7 +40,7 @@ public class AlbumsFragment extends Fragment {
 
         AlbumAdapter albumAdapter = new AlbumAdapter(albums);
         //rvAlbums.setAdapter(albumAdapter);
-        rvAlbums.swapAdapter(albumAdapter, true);
+        rvAlbums.swapAdapter(albumAdapter, false);
 
         albumAdapter.setOnItemClickListener(new AlbumAdapter.onItemClickListener() {
             @Override
@@ -51,7 +50,7 @@ public class AlbumsFragment extends Fragment {
             }
         });
 
-        rvAlbums.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        rvAlbums.setLayoutManager(new GridLayoutManager(getActivity(), 2));
     }
 
     //TODO getAlbums implementation
