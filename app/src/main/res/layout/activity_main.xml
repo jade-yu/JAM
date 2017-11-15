@@ -62,7 +62,8 @@
             android:background="#FF384E77"
             app:tabIndicatorColor="#fff"
             app:tabSelectedTextColor="#FFEAD48A"
-            app:tabTextColor="#fff" />
+            app:tabTextColor="#fff"
+            app:tabMode="scrollable"/>
 
         <FrameLayout
             android:id="@+id/tabcontent"

@@ -41,7 +41,7 @@ public class TracksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("onCreateView", "onCreateView: started");
-        return inflater.inflate(R.layout.activity_tracks, container, false);
+        return inflater.inflate(R.layout.rv_main, container, false);
     }
 
     @Override
