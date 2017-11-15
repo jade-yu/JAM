@@ -1,6 +1,9 @@
 package edu.dlsu.mobapde.jam.RecyclerViewItems;
 
-public class Track {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Track implements Parcelable {
 
     private long id;
     private String title;
@@ -54,4 +57,36 @@ public class Track {
     public void setAlbumcover(int albumcover) {
         this.albumcover = albumcover;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(title);
+        dest.writeString(artist);
+        dest.writeInt(albumcover);
+    }
+
+    protected Track(Parcel in) {
+        id = in.readLong();
+        title = in.readString();
+        artist = in.readString();
+        albumcover = in.readInt();
+    }
+
+    public static final Creator<Track> CREATOR = new Creator<Track>() {
+        @Override
+        public Track createFromParcel(Parcel in) {
+            return new Track(in);
+        }
+
+        @Override
+        public Track[] newArray(int size) {
+            return new Track[size];
+        }
+    };
 }
