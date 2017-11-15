@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.dlsu.mobapde.jam.Activities.MainActivity;
 import edu.dlsu.mobapde.jam.R;
 
 public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHolder> {
@@ -42,7 +43,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
     }
 
     @Override
-    public void onBindViewHolder(TrackViewHolder holder, int position) {
+    public void onBindViewHolder(TrackViewHolder holder, final int position) {
 
         Track currentTrack = data.get(position);
 
@@ -52,19 +53,21 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
             holder.ivTrack.setImageResource(currentTrack.getAlbumcover());
         }
 
-        holder.itemView.setTag(currentTrack);
+        //holder.itemView.setTag(123456, currentTrack);
+        holder.itemView.setTag(position);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Track t = (Track) view.getTag();
-                onItemClickListener.onItemClick(t);
+                //Track t = (Track) view.getTag(100);
+                int pos = (Integer) view.getTag();
+                onItemClickListener.onItemClick(pos);
             }
         });
     }
 
     public interface onItemClickListener {
-        public void onItemClick(Track t);
+        public void onItemClick(int position);
     }
 
     private onItemClickListener onItemClickListener;
