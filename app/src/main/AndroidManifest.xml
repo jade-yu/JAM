@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.dlsu.mobapde.jam">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,10 +23,9 @@
         <activity android:name=".Activities.AlbumsActivity" />
         <activity android:name=".Activities.ArtistsActivity" />
         <activity android:name=".Activities.TracksActivity" />
+        <activity android:name=".Activities.SearchActivity" />
+        <activity android:name=".Activities.SearchLyricsActivity" />
+        <activity android:name=".Activities.SearchTrackActivity"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 </manifest>
