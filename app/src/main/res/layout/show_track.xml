@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     android:id="@+id/st_layout">
 
-    <LinearLayout
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
         android:background="#172a3a"
-        android:id="@+id/linearLayout">
+        android:layout_gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,9 +42,10 @@
             android:id="@+id/iv_search"
             android:layout_marginTop="10dp"
             android:src="@drawable/search"
-            android:layout_marginLeft="22dp"/>
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

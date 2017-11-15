@@ -13,11 +13,14 @@
         android:orientation="vertical"
         android:background= "#FFA6A5BA">
 
-        <LinearLayout
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:orientation="horizontal"
-            android:background="#172a3a">
+            android:background="#172a3a"
+            android:layout_gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,9 +49,10 @@
                 android:id="@+id/iv_search"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/search"
-                android:layout_marginLeft="22dp"/>
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tablayout"
@@ -83,6 +87,7 @@
                 <ImageView
                     android:layout_width="70dp"
                     android:layout_height="70dp"
+                    android:layout_marginTop="10dp"
                     android:src="@drawable/cover"
                     android:id="@+id/main_album"
                     android:layout_marginLeft="10dp"/>
@@ -91,6 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="50dp">
 
@@ -123,37 +129,46 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentBottom="true">
+                    android:gravity="center">
 
-                    <ImageButton
-                        android:id="@+id/ib_back"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/btn_back"
-                        android:cropToPadding="true" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true">
 
-                    <ImageButton
-                        android:id="@+id/ib_play"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/btn_play"
-                        android:cropToPadding="true" />
+                        <ImageButton
+                            android:id="@+id/ib_back"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="20dp"
+                            android:background="@drawable/btn_back"
+                            android:cropToPadding="true" />
 
-                    <ImageButton
-                        android:id="@+id/ib_next"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/btn_next"
-                        android:cropToPadding="true" />
-                </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/ib_play"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginRight="20dp"
+                            android:background="@drawable/btn_play"
+                            android:cropToPadding="true" />
+
+                        <ImageButton
+                            android:id="@+id/ib_next"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/btn_next"
+                            android:cropToPadding="true" />
+                    </LinearLayout>
+
+                </RelativeLayout>
 
             </LinearLayout>
 
