@@ -28,7 +28,8 @@
                 android:text="JAM"
                 android:textColor="#fff"
                 android:textSize="20sp"
-                android:layout_marginTop="6.5dp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
                 android:fontFamily="@font/beon"/>
@@ -60,7 +61,7 @@
             android:layout_height="40dp"
             android:layout_weight="0"
             android:background="#FF384E77"
-            app:tabIndicatorColor="#fff"
+            app:tabIndicatorColor="#ead48a"
             app:tabSelectedTextColor="#FFEAD48A"
             app:tabTextColor="#fff"
             app:tabMode="scrollable"/>
@@ -116,7 +117,8 @@
                             android:singleLine="true"
                             android:focusable="true"
                             android:layout_toRightOf="@id/main_album"
-                            android:focusableInTouchMode="true"/>
+                            android:focusableInTouchMode="true"
+                            android:scrollHorizontally="true"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -132,7 +134,8 @@
                             android:layout_marginLeft="10dp"
                             android:layout_below="@id/tv_mainsong"
                             android:layout_toRightOf="@id/main_album"
-                            android:focusableInTouchMode="true"/>
+                            android:focusableInTouchMode="true"
+                            android:scrollHorizontally="true"/>
 
                     </LinearLayout>
 

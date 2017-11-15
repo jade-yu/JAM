@@ -7,8 +7,8 @@
     android:background="#a6a5ba">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@drawable/cover"
         android:id="@+id/iv_icon"/>
 
@@ -19,24 +19,26 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:id="@+id/tv_itemartist"
-            android:textSize="25sp"
+            android:textSize="15sp"
             android:text="Mitski"
             android:fontFamily="@font/montserrat"
-            android:paddingTop="15dp"
+            android:paddingTop="20dp"
             android:layout_marginLeft="15dp"
             android:textColor="#ffffff"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:focusable="true"
-            android:focusableInTouchMode="true"/>
+            android:focusableInTouchMode="true"
+            android:scrollHorizontally="true"/>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:id="@+id/tv_albumnum"
-            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:textSize="10sp"
             android:fontFamily="@font/montserrat"
             android:layout_marginLeft="15dp"
             android:text="1 album"

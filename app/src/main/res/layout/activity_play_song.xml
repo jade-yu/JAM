@@ -21,7 +21,8 @@
             android:text="JAM"
             android:textColor="#fff"
             android:textSize="20sp"
-            android:layout_marginTop="6.5dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="30dp"
             android:fontFamily="@font/beon"/>

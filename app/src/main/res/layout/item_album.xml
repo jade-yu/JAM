@@ -8,12 +8,12 @@
     android:layout_margin="20dp">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/iv_album"
         android:src="@drawable/cover"/>
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="20dp"
         android:id="@+id/tv_albumname"
         android:text="bury me at make out creek"
@@ -24,20 +24,22 @@
         android:singleLine="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"
         />
 
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="20dp"
         android:id="@+id/tv_albumartist"
         android:text="Mitski"
         android:fontFamily="@font/montserrat"
         android:textColor="#fff"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:focusable="true"
-        android:focusableInTouchMode="true"/>
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"/>
 
 
 
