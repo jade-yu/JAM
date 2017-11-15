@@ -20,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.AlbumsActivity" />
-        <activity android:name=".Activities.ArtistsActivity" />
-        <activity android:name=".Activities.TracksActivity" />
+        <activity android:name=".Fragments.AlbumsFragment" />
+        <activity android:name=".Fragments.ArtistsFragment" />
+        <activity android:name=".Fragments.TracksFragment" />
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.SearchLyricsActivity" />
         <activity android:name=".Activities.SearchTrackActivity"></activity>

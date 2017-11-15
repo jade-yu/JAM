@@ -1,6 +1,7 @@
-package edu.dlsu.mobapde.jam.Activities;
+package edu.dlsu.mobapde.jam.Fragments;
 
 import android.Manifest;
+import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -8,11 +9,13 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,22 +25,35 @@ import edu.dlsu.mobapde.jam.R;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.Track;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.TrackAdapter;
 
-public class TracksActivity extends AppCompatActivity {
+public class TracksFragment extends Fragment {
 
     RecyclerView rvTracks;
 
+    public TracksFragment() {
+
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tracks);
+    }
 
-        rvTracks = (RecyclerView) findViewById(R.id.rv_tracks);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("onCreateView", "onCreateView: started");
+        return inflater.inflate(R.layout.activity_tracks, container, false);
+    }
 
-        ArrayList<Track> trackList = getTrackList();
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        //TODO fix recyclerView implementation
+        rvTracks = (RecyclerView) view.findViewById(R.id.rv_tracks);
 
-        Log.d("tracksize", trackList.size() + "");
+        ArrayList<Track> tracks = getTracks();
 
-        TrackAdapter trackAdapter = new TrackAdapter(trackList);
+        Log.d("tracksize", tracks.size() + "");
+
+        TrackAdapter trackAdapter = new TrackAdapter(tracks);
         rvTracks.setAdapter(trackAdapter);
 
         trackAdapter.setOnItemClickListener(new TrackAdapter.onItemClickListener() {
@@ -48,22 +64,22 @@ public class TracksActivity extends AppCompatActivity {
             }
         });
 
-        rvTracks.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
+        rvTracks.setLayoutManager(new LinearLayoutManager(getActivity().getBaseContext(), LinearLayoutManager.VERTICAL, false));
     }
 
     // Gets the list of songs from the device storage
-    public ArrayList<Track> getTrackList() {
+    public ArrayList<Track> getTracks() {
 
-        ArrayList<Track> trackList = new ArrayList<>();
+        ArrayList<Track> tracks = new ArrayList<>();
 
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
 
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            ContentResolver musicResolver = getContentResolver();
+            ContentResolver musicResolver = getActivity().getContentResolver();
             Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
             Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
 
@@ -83,18 +99,18 @@ public class TracksActivity extends AppCompatActivity {
 
 //                    Log.d("title", title);
 
-                    trackList.add(new Track(id, title, artist));
+                    tracks.add(new Track(id, title, artist));
                 } while (musicCursor.moveToNext());
             }
 
-            Collections.sort(trackList, new Comparator<Track>(){
+            Collections.sort(tracks, new Comparator<Track>(){
                 public int compare(Track a, Track b){
                     return a.getTitle().compareTo(b.getTitle());
                 }
             });
         }
 
-        return trackList;
+        return tracks;
     }
 
 }
