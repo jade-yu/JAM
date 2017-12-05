@@ -57,14 +57,6 @@ public class PlaySongActivity extends AppCompatActivity {
         ibPlaytrack = findViewById(R.id.ib_playtrack);
         ibNexttrack = findViewById(R.id.ib_nexttrack);
 
-        currentTrack = getIntent().getParcelableExtra("currentTrack");
-        trackList = getIntent().getParcelableArrayListExtra("trackList");
-
-//        Log.d("Playsong tracksize", trackList.size() + "");
-
-        tvTracksong.setText(currentTrack.getTitle());
-        tvTrackartist.setText(currentTrack.getArtist());
-
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,12 +64,34 @@ public class PlaySongActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        ibPlaytrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                musicService.togglePlay();
+            }
+        });
+
+        ibBacktrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                musicService.previousTrack();
+                playSong();
+            }
+        });
+
+        ibNexttrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                musicService.nextTrack();
+                playSong();
+            }
+        });
     }
 
     //connect to the service
     private ServiceConnection musicConnection = new ServiceConnection() {
 
-        //TODO fix playing of song; does not reach here
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicBinder binder = (MusicBinder) service;
@@ -86,9 +100,16 @@ public class PlaySongActivity extends AppCompatActivity {
             musicService = binder.getService();
 
             //pass list
-            musicService.setTracks(trackList);
+            if(musicService.getTrackList().size() == 0) {
+                currentTrack = getIntent().getParcelableExtra("currentTrack");
+                trackList = getIntent().getParcelableArrayListExtra("trackList");
+                musicService.setTracks(trackList);
+                musicService.setCurrentPosition(getIntent().getIntExtra("position", 0));
+            }
+
             musicBound = true;
             Log.d("onServiceConnected", "started");
+            musicService.playTrack();
             playSong();
         }
 
@@ -109,25 +130,29 @@ public class PlaySongActivity extends AppCompatActivity {
             Log.d("permission check", "media content control");
         }
 
-        if(playIntent == null) {
+        if(playIntent == null && !musicBound) {
             Log.d("debug", "playIntent null");
-            //TODO fix playing of song; reaches up to here
             playIntent = new Intent(this, MusicService.class);
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
         }
     }
 
-    //TODO fix playing of song; does not reach here
     public void playSong() {
-        musicService.setCurrentPosition(getIntent().getIntExtra("position", 0));
+        currentTrack = musicService.getCurrentTrack();
+        tvTracksong.setText(currentTrack.getTitle());
+        tvTrackartist.setText(currentTrack.getArtist());
+
         Log.d("playSong", "started");
-        musicService.playTrack();
     }
 
     protected void onDestroy() {
         super.onDestroy();
         unbindService(musicConnection);
-    };
+    }
+
+    public static void songFinished() {
+        
+    }
 
 }
