@@ -71,6 +71,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.d("MusicService", "onBind");
         return musicBind;
     }
 

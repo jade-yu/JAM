@@ -12,7 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -75,34 +74,8 @@ public class PlaySongActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
-
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MEDIA_CONTENT_CONTROL}, 1);
-        }
-
-        if(playIntent == null){
-            Log.d("debug", "playIntent not null");
-            //TODO fix playing of song; reaches up to here
-            playIntent = new Intent(this, MusicService.class);
-            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            startService(playIntent);
-        }
-    }
-
-    //TODO fix playing of song; does not reach here
-    public void playSong() {
-        musicService.setCurrentPosition(getIntent().getIntExtra("position", 0));
-        Log.d("playSong", "started");
-        musicService.playTrack();
-    }
-
     //connect to the service
-    private ServiceConnection musicConnection = new ServiceConnection(){
+    private ServiceConnection musicConnection = new ServiceConnection() {
 
         //TODO fix playing of song; does not reach here
         @Override
@@ -124,6 +97,33 @@ public class PlaySongActivity extends AppCompatActivity {
             musicBound = false;
         }
     };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MEDIA_CONTENT_CONTROL}, 1);
+            Log.d("permission check", "media content control");
+        }
+
+        if(playIntent == null) {
+            Log.d("debug", "playIntent null");
+            //TODO fix playing of song; reaches up to here
+            playIntent = new Intent(this, MusicService.class);
+            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            startService(playIntent);
+        }
+    }
+
+    //TODO fix playing of song; does not reach here
+    public void playSong() {
+        musicService.setCurrentPosition(getIntent().getIntExtra("position", 0));
+        Log.d("playSong", "started");
+        musicService.playTrack();
+    }
 
     protected void onDestroy() {
         super.onDestroy();
