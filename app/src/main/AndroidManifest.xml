@@ -20,13 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Fragments.AlbumsFragment" />
-        <activity android:name=".Fragments.ArtistsFragment" />
-        <activity android:name=".Fragments.TracksFragment" />
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.SearchLyricsActivity" />
         <activity android:name=".Activities.SearchTrackActivity" />
         <activity android:name=".Activities.PlaySongActivity"></activity>
+        <service android:name=".Service.MusicService"/>
     </application>
 
 </manifest>
