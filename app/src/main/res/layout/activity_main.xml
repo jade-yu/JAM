@@ -13,8 +13,6 @@
         android:orientation="vertical"
         android:background= "#FFA6A5BA">
 
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -33,6 +31,14 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
                 android:fontFamily="@font/beon"/>
+
+            <ImageButton
+                android:id="@+id/ib_goback"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_goback"
+                android:cropToPadding="true" />
 
             <EditText
                 android:layout_width="240dp"

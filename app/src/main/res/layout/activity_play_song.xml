@@ -58,7 +58,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/btn_goback"
-            android:background="@drawable/goback"
+            android:background="@drawable/btn_goback"
             android:layout_gravity="center"
             />
 
