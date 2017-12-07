@@ -10,54 +10,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background= "#FFA6A5BA">
+        android:background="#FFA6A5BA"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:orientation="horizontal"
+            android:layout_gravity="center"
             android:background="#172a3a"
-            android:layout_gravity="center">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="JAM"
-                android:textColor="#fff"
-                android:textSize="20sp"
-                android:layout_centerInParent="true"
                 android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="30dp"
-                android:fontFamily="@font/beon"/>
-
-            <ImageButton
-                android:id="@+id/ib_goback"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/btn_goback"
-                android:cropToPadding="true" />
+                android:fontFamily="@font/beon"
+                android:text="JAM"
+                android:textColor="#fff"
+                android:textSize="20sp" />
 
             <EditText
+                android:id="@+id/et_search"
                 android:layout_width="240dp"
                 android:layout_height="25dp"
-                android:id="@+id/et_search"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
 
             <ImageView
+                android:id="@+id/iv_search"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:id="@+id/iv_search"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/search"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"
-                android:layout_alignParentRight="true"/>
+                android:layout_marginTop="10dp"
+                android:src="@drawable/search" />
 
         </RelativeLayout>
 
@@ -68,42 +59,42 @@
             android:layout_weight="0"
             android:background="#FF384E77"
             app:tabIndicatorColor="#ead48a"
+            app:tabMode="scrollable"
             app:tabSelectedTextColor="#FFEAD48A"
-            app:tabTextColor="#fff"
-            app:tabMode="scrollable"/>
+            app:tabTextColor="#ffffff" />
 
         <FrameLayout
             android:id="@+id/tabcontent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/footer"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
-                android:id="@+id/footer"
                 android:background="#FF172A3A"
-                android:orientation="horizontal"
                 android:baselineAligned="true"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <ImageView
+                        android:id="@+id/main_album"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="0dp"
-                        android:src="@drawable/cover"
-                        android:id="@+id/main_album"
-                        android:layout_marginLeft="10dp"/>
+                        android:src="@drawable/cover" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -111,37 +102,37 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_mainsong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tv_mainsong"
-                            android:text="Townie"
-                            android:textSize="20sp"
-                            android:fontFamily="@font/montserrat"
-                            android:textColor="#fff"
                             android:layout_marginLeft="10dp"
-                            android:ellipsize="marquee"
-                            android:singleLine="true"
-                            android:focusable="true"
                             android:layout_toRightOf="@id/main_album"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
                             android:focusableInTouchMode="true"
-                            android:scrollHorizontally="true"/>
+                            android:fontFamily="@font/montserrat"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="Townie"
+                            android:textColor="#fff"
+                            android:textSize="20sp" />
 
                         <TextView
+                            android:id="@+id/tv_mainartist"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tv_mainartist"
-                            android:text="Mitski"
-                            android:textSize="15sp"
-                            android:fontFamily="@font/montserrat"
-                            android:textColor="#fff"
-                            android:ellipsize="marquee"
-                            android:singleLine="true"
-                            android:focusable="true"
-                            android:layout_marginLeft="10dp"
                             android:layout_below="@id/tv_mainsong"
+                            android:layout_marginLeft="10dp"
                             android:layout_toRightOf="@id/main_album"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
                             android:focusableInTouchMode="true"
-                            android:scrollHorizontally="true"/>
+                            android:fontFamily="@font/montserrat"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:text="Mitski"
+                            android:textColor="#fff"
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -151,9 +142,9 @@
                 <LinearLayout
                     android:layout_width="120dp"
                     android:layout_height="200dp"
-                    android:orientation="horizontal"
+                    android:layout_alignParentRight="true"
                     android:gravity="center"
-                    android:layout_alignParentRight="true">
+                    android:orientation="horizontal">
 
                     <ImageButton
                         android:id="@+id/ib_back"

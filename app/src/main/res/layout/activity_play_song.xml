@@ -121,25 +121,47 @@
             <!--android:text=""-->
             <!--android:background="#88172A3A"/>-->
 
-        <ScrollView
-            android:id="@+id/scroller"
+        <!--<ScrollView-->
+            <!--android:id="@+id/scroller"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scrollbars="vertical"-->
+            <!--android:fillViewport="true">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_lyrics"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1.0"-->
+                <!--android:textSize="15sp"-->
+                <!--android:textColor="#fff"-->
+                <!--android:textAlignment="center"-->
+                <!--android:fontFamily="@font/montserrat"-->
+                <!--android:text=""-->
+                <!--android:background="#88172A3A"/>-->
+        <!--</ScrollView>-->
+
+        <android.support.v7.widget.RecyclerView
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:fillViewport="true">
+            android:background="#88172A3A"
+            android:id="@+id/rv_lyrics">
 
-            <TextView
-                android:id="@+id/tv_lyrics"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.0"
-                android:textSize="15sp"
-                android:textColor="#fff"
-                android:textAlignment="center"
-                android:fontFamily="@font/montserrat"
-                android:text=""
-                android:background="#88172A3A"/>
-        </ScrollView>
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_addlyrics"
+            android:text="+ Add Lyrics"
+            android:backgroundTint="#375065"
+            android:textColor="#fff"
+            android:fontFamily="@font/montserrat"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+            />
 
     </RelativeLayout>
 
