@@ -4,11 +4,9 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -64,8 +62,8 @@ public class TracksFragment extends Fragment {
         trackAdapter.setOnItemClickListener(new TrackAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //TODO onItemClick implementation
                 //Log.d("clickedtitle", t.getTitle());
+                Log.d("onItemClick", position + "");
                 Track t = tracks.get(position);
                 ((MainActivity) getActivity()).setCurrentTrack(t);
                 ((MainActivity) getActivity()).setCurrentPosition(position);
@@ -105,16 +103,18 @@ public class TracksFragment extends Fragment {
                 int titleColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
                 int idColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID);
                 int artistColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST);
+                int durationColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.DURATION);
 
                 //add songs to list
                 do {
                     long id = musicCursor.getLong(idColumn);
                     String title = musicCursor.getString(titleColumn);
                     String artist = musicCursor.getString(artistColumn);
+                    int duration = musicCursor.getInt(durationColumn);
 
 //                    Log.d("title", title);
 
-                    tracks.add(new Track(id, title, artist));
+                    tracks.add(new Track(id, title, artist, duration));
                 } while (musicCursor.moveToNext());
             }
 
