@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,10 +31,13 @@ public class PlaySongActivity extends AppCompatActivity {
 
     ImageView btnGoBack;
 
-    TextView tvTracksong, tvTrackartist, tvLyrics;
+    TextView tvTracksong, tvTrackartist, tvLyrics, tvTrackstart, tvTrackend;
     ImageView ivAlbumshow;
 
     ImageButton ibBacktrack, ibPlaytrack, ibNexttrack;
+
+    SeekBar sbProgress;
+    Handler seekHandler;
 
     Track currentTrack;
     ArrayList<Track> trackList;
@@ -56,6 +62,10 @@ public class PlaySongActivity extends AppCompatActivity {
         ibBacktrack = findViewById(R.id.ib_backtrack);
         ibPlaytrack = findViewById(R.id.ib_playtrack);
         ibNexttrack = findViewById(R.id.ib_nexttrack);
+
+        sbProgress = findViewById(R.id.sb_progress);
+        tvTrackstart = findViewById(R.id.tv_trackstart);
+        tvTrackend = findViewById(R.id.tv_trackend);
 
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +99,26 @@ public class PlaySongActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
+        Log.d("onStart", "permission check");
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MEDIA_CONTENT_CONTROL}, 1);
+            Log.d("permission check", "media content control");
+        }
+
+        if(playIntent == null && !musicBound) {
+            Log.d("debug", "playIntent null");
+            playIntent = new Intent(this, MusicService.class);
+            startService(playIntent);
+            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
+
     //connect to the service
     private ServiceConnection musicConnection = new ServiceConnection() {
 
@@ -100,16 +130,22 @@ public class PlaySongActivity extends AppCompatActivity {
             musicService = binder.getService();
 
             //pass list
-            if(musicService.getTrackList().size() == 0) {
+            if(getIntent().getIntExtra("position", -1) != -1) {
+                Log.d("position", getIntent().getIntExtra("position", -1) + "");
                 currentTrack = getIntent().getParcelableExtra("currentTrack");
                 trackList = getIntent().getParcelableArrayListExtra("trackList");
                 musicService.setTracks(trackList);
-                musicService.setCurrentPosition(getIntent().getIntExtra("position", 0));
+                musicService.setCurrentPosition(getIntent().getIntExtra("position", -1));
+            } else {
+                Log.d("position", "-1");
+                currentTrack = musicService.getCurrentTrack();
+                trackList = musicService.getTrackList();
             }
 
             musicBound = true;
-            Log.d("onServiceConnected", "started");
+
             musicService.playTrack();
+
             playSong();
         }
 
@@ -119,40 +155,110 @@ public class PlaySongActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
-
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MEDIA_CONTENT_CONTROL}, 1);
-            Log.d("permission check", "media content control");
-        }
-
-        if(playIntent == null && !musicBound) {
-            Log.d("debug", "playIntent null");
-            playIntent = new Intent(this, MusicService.class);
-            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            startService(playIntent);
-        }
-    }
-
     public void playSong() {
         currentTrack = musicService.getCurrentTrack();
         tvTracksong.setText(currentTrack.getTitle());
         tvTrackartist.setText(currentTrack.getArtist());
 
+//        Log.d("playSong", "track duration " + currentTrack.getDuration());
+
+        sbProgress.setMax(currentTrack.getDuration());
+        tvTrackend.setText(milliSecondsToTimer(currentTrack.getDuration()));
+
+        seekHandler = new Handler();
+        updateSeekBar();
+
         Log.d("playSong", "started");
+
+        sbProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public boolean playing;
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if(musicService.getMediaPlayer() != null){
+                    musicService.getMediaPlayer().seekTo(seekBar.getProgress());
+                    if(playing) {
+                        musicService.getMediaPlayer().start();
+                    }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                playing = musicService.getMediaPlayer().isPlaying();
+                if(playing){
+                    musicService.getMediaPlayer().pause();
+                }
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                /*if(musicService.getMediaPlayer() != null && fromUser){
+                    musicService.getMediaPlayer().seekTo(progress);
+                }*/
+            }
+        });
+
+        musicService.getMediaPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                musicService.onCompletion(mp);
+                playSong();
+            }
+        });
+    }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            updateSeekBar();
+        }
+    };
+
+    private void updateSeekBar() {
+        sbProgress.setProgress(musicService.getMediaPlayer().getCurrentPosition());
+        tvTrackstart.setText(milliSecondsToTimer(musicService.getMediaPlayer().getCurrentPosition()));
+        seekHandler.postDelayed(runnable, 1000);
+    }
+
+    private String milliSecondsToTimer(long milliseconds) {
+        String finalTimerString = "";
+        String secondsString = "";
+
+        // Convert total duration into time
+        int hours = (int) (milliseconds / (1000 * 60 * 60));
+        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+        // Add hours if there
+        if (hours > 0) {
+            finalTimerString = hours + ":";
+        }
+
+        // Prepending 0 to seconds if it is one digit
+        if (seconds < 10) {
+            secondsString = "0" + seconds;
+        } else {
+            secondsString = "" + seconds;
+        }
+
+        finalTimerString = finalTimerString + minutes + ":" + secondsString;
+
+        // return timer string
+        return finalTimerString;
     }
 
     protected void onDestroy() {
         super.onDestroy();
+
+        Intent songIntent = new Intent();
+        songIntent.putExtra("currentTrack", currentTrack);
+        songIntent.putParcelableArrayListExtra("trackList", trackList);
+
         unbindService(musicConnection);
     }
 
-    public static void songFinished() {
-        
+    public void songFinished() {
+        playSong();
     }
 
 }
