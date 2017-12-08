@@ -23,6 +23,7 @@ import edu.dlsu.mobapde.jam.Fragments.ArtistsFragment;
 import edu.dlsu.mobapde.jam.Fragments.TracksFragment;
 import edu.dlsu.mobapde.jam.R;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.Track;
+import edu.dlsu.mobapde.jam.Service.MusicService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,8 +68,10 @@ public class MainActivity extends AppCompatActivity {
         ibPlay = findViewById(R.id.ib_play);
         ibNext = findViewById(R.id.ib_next);
 
+        //show main tabs
         initializeTabs();
 
+        //show footer if a song is playing
         if(currentTrack == null) {
             llFooter.setVisibility(View.GONE);
         }
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCurrentTrack(Track track) {
-        if(currentTrack == null) {
+        if(MusicService.isActive()) {
             llFooter.setVisibility(View.VISIBLE);
         }
 
@@ -137,6 +140,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCurrentPosition(int pos) {
+        currentPosition = pos;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //TODO get track info to update footer
+        //TODO implement listener to update footer
+//        updateTrack();
+    }
+
+    public void updateTrack(Track t, ArrayList<Track> list, int pos) {
+        currentTrack = t;
+        trackList = list;
         currentPosition = pos;
     }
 
