@@ -1,5 +1,6 @@
 package edu.dlsu.mobapde.jam.RecyclerViewItems;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,9 +51,18 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
         if(currentArtist.getAlbums() > 1) {
             holder.tvAlbums.append("s");
         }
+
+        holder.tvAlbums.append(", " + currentArtist.getTracks() + " track");
+        if(currentArtist.getTracks() > 1) {
+            holder.tvAlbums.append("s");
+        }
+
         if(currentArtist.getIcon() != -1) {
             holder.ivIcon.setImageResource(currentArtist.getIcon());
         }
+
+        //TODO fix textView; correct value in tvAlbums but doesn't show in the app after scrolling??
+        Log.d("onBindViewHolder", currentArtist.getArtist() + " " + holder.tvAlbums.getText().toString());
 
         holder.itemView.setTag(currentArtist);
 
