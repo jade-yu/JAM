@@ -44,7 +44,6 @@ public class TracksFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("onCreateView", "onCreateView: started");
         return inflater.inflate(R.layout.rv_main, container, false);
     }
 
@@ -62,10 +61,11 @@ public class TracksFragment extends Fragment {
         trackAdapter.setOnItemClickListener(new TrackAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //Log.d("clickedtitle", t.getTitle());
-                Log.d("onItemClick", position + "");
+//                Log.d("clickedtitle", t.getTitle());
+//                Log.d("onItemClick", position + "");
                 Track t = tracks.get(position);
                 ((MainActivity) getActivity()).setCurrentTrack(t);
+                ((MainActivity) getActivity()).setTrackList(tracks);
                 ((MainActivity) getActivity()).setCurrentPosition(position);
 
                 Intent i = new Intent(getActivity().getBaseContext(), PlaySongActivity.class);
@@ -96,7 +96,7 @@ public class TracksFragment extends Fragment {
             Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
             Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
 
-            Log.d("cursorsize", musicCursor.getCount() + "");
+//            Log.d("cursorsize", musicCursor.getCount() + "");
 
             if(musicCursor != null && musicCursor.moveToFirst()){
                 //get columns
