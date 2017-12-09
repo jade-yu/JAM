@@ -139,6 +139,10 @@ public class MainActivity extends AppCompatActivity {
         tvMainartist.setText(currentTrack.getArtist());
     }
 
+    public void setTrackList(ArrayList<Track> trackList) {
+        this.trackList = trackList;
+    }
+
     public void setCurrentPosition(int pos) {
         currentPosition = pos;
     }
@@ -203,24 +207,24 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (tab.getPosition()) {
                     case TRACKS_TAB:
-                        Log.d("tabselected", "onTabSelected: TRACKS");
+                        Log.d("onTabSelected", "TRACKS");
                         fragment = new TracksFragment();
                         break;
                     case ARTISTS_TAB:
-                        Log.d("tabselected", "onTabSelected: ARTISTS");
+                        Log.d("onTabSelected", "ARTISTS");
                         fragment = new ArtistsFragment();
                         break;
                     case ALBUMS_TAB:
-                        Log.d("tabselected", "onTabSelected: ALBUMS");
+                        Log.d("onTabSelected", "ALBUMS");
                         fragment = new AlbumsFragment();
                         break;
                     case PLAYLISTS_TAB:
-                        Log.d("tabselected", "onTabSelected: PLAYLISTS");
+                        Log.d("onTabSelected", "PLAYLISTS");
                         //TODO playlists fragment
                         fragment = new TracksFragment();
                         break;
                     case FAVES_TAB:
-                        Log.d("tabselected", "onTabSelected: FAVES");
+                        Log.d("onTabSelected", "FAVES");
                         //TODO faves fragment
                         fragment = new TracksFragment();
                         break;
