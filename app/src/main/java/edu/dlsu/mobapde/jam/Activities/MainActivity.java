@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int PLAYLISTS_TAB = 3;
     public static final int FAVES_TAB = 4;
 
+    public static final int REQUEST_CODE_PLAY_SONG = 1;
+
     EditText etSearch;
     ImageView ivSearch;
 
@@ -154,6 +156,21 @@ public class MainActivity extends AppCompatActivity {
         //TODO get track info to update footer
         //TODO implement listener to update footer
 //        updateTrack();
+
+        if(MusicService.isActive()) {
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE_PLAY_SONG && resultCode == RESULT_OK) {
+            currentTrack = data.getParcelableExtra("currentTrack");
+            setCurrentTrack(currentTrack);
+            Log.d("onActivityResult", "set current track to " + currentTrack.getTitle());
+        } else {
+            Log.d("onActivityResult", "set current track failed");
+        }
     }
 
     public void updateTrack(Track t, ArrayList<Track> list, int pos) {

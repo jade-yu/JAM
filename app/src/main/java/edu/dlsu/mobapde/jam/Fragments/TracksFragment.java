@@ -73,7 +73,7 @@ public class TracksFragment extends Fragment {
                 i.putExtra("currentTrack", t);
                 i.putExtra("position", position);
 
-                startActivity(i);
+                getActivity().startActivityForResult(i, MainActivity.REQUEST_CODE_PLAY_SONG);
             }
         });
 

@@ -70,7 +70,10 @@ public class PlaySongActivity extends AppCompatActivity {
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO pass current track info
+                Intent i = new Intent();
+                i.putExtra("currentTrack", musicService.getCurrentTrack());
+
+                setResult(RESULT_OK, i);
                 finish();
             }
         });
@@ -104,15 +107,15 @@ public class PlaySongActivity extends AppCompatActivity {
         super.onStart();
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
-        Log.d("onStart", "permission check");
+//        Log.d("onStart", "permission check");
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MEDIA_CONTENT_CONTROL}, 1);
-            Log.d("permission check", "media content control");
+//            Log.d("permission check", "media content control");
         }
 
         if(playIntent == null && !musicBound) {
-            Log.d("debug", "playIntent null");
+//            Log.d("debug", "playIntent null");
             playIntent = new Intent(this, MusicService.class);
             startService(playIntent);
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
@@ -131,13 +134,13 @@ public class PlaySongActivity extends AppCompatActivity {
 
             //pass list
             if(getIntent().getIntExtra("position", -1) != -1) {
-                Log.d("position", getIntent().getIntExtra("position", -1) + "");
+//                Log.d("position", getIntent().getIntExtra("position", -1) + "");
                 currentTrack = getIntent().getParcelableExtra("currentTrack");
                 trackList = getIntent().getParcelableArrayListExtra("trackList");
                 musicService.setTracks(trackList);
                 musicService.setCurrentPosition(getIntent().getIntExtra("position", -1));
             } else {
-                Log.d("position", "-1");
+//                Log.d("position", "-1");
                 currentTrack = musicService.getCurrentTrack();
                 trackList = musicService.getTrackList();
             }
@@ -168,7 +171,7 @@ public class PlaySongActivity extends AppCompatActivity {
         seekHandler = new Handler();
         updateSeekBar();
 
-        Log.d("playSong", "started");
+//        Log.d("playSong", "started");
 
         sbProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public boolean playing;
@@ -247,14 +250,21 @@ public class PlaySongActivity extends AppCompatActivity {
         return finalTimerString;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent();
+        i.putExtra("currentTrack", musicService.getCurrentTrack());
+
+        setResult(RESULT_OK, i);
+        super.onBackPressed();
+    }
+
     protected void onDestroy() {
-        super.onDestroy();
-
-        Intent songIntent = new Intent();
-        songIntent.putExtra("currentTrack", currentTrack);
-        songIntent.putParcelableArrayListExtra("trackList", trackList);
-
         unbindService(musicConnection);
+
+        Log.d("PlaySongActivity", "music connection unbind successful");
+
+        super.onDestroy();
     }
 
     public void songFinished() {
