@@ -7,11 +7,14 @@ import java.util.ArrayList;
  */
 
 public class Lyrics {
+
     private String wholeLyrics;
 
     public Lyrics(String wholeLyrics) {
         this.wholeLyrics = wholeLyrics;
     }
+
+    public Lyrics() {}
 
     public String getWholeLyrics() {
         return wholeLyrics;
