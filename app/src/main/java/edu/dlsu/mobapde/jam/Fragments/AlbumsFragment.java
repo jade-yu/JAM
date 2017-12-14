@@ -121,18 +121,18 @@ public class AlbumsFragment extends Fragment {
                 int artistColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Albums.ARTIST);
                 int albumColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums._ID);
                 int albumartColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
-                int tracksColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS);
+                //int tracksColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS);
 
                 //add songs to list
                 do {
                     long albumid = musicCursor.getLong(albumColumn);
                     String title = musicCursor.getString(titleColumn);
                     String artist = musicCursor.getString(artistColumn);
-                    String songArt = musicCursor.getString(albumartColumn);
+                    String trackArt = musicCursor.getString(albumartColumn);
                    // Bitmap bm = BitmapFactory.decodeFile(songArt);
 
 //                    Log.d("title", title);
-                    albums.add(new Album(title, artist, albumid, songArt));
+                    albums.add(new Album(title, artist, albumid, trackArt));
                 } while (musicCursor.moveToNext());
             }
 
