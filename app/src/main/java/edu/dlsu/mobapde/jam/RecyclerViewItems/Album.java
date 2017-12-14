@@ -4,20 +4,29 @@ public class Album {
 
     private String title;
     private String artist;
-    private int albumcover;
+    private long id;
+    private String albumart;
+    private int tracks;
 
     public Album() {};
 
     public Album(String title, String artist) {
         this.title = title;
         this.artist = artist;
-        this.albumcover = -1;
+        this.id = -1;
     }
 
-    public Album(String title, String artist, int albumcover) {
+    public Album(String title, String artist, long id, String albumart) {
         this.title = title;
         this.artist = artist;
-        this.albumcover = albumcover;
+        this.id = id;
+        this.albumart = albumart;
+    }
+
+    public Album(String title, String artist, long id) {
+        this.title = title;
+        this.artist = artist;
+        this.id = id;
     }
 
     public String getTitle() {
@@ -36,11 +45,23 @@ public class Album {
         this.artist = artist;
     }
 
-    public int getAlbumcover() {
-        return albumcover;
+    public long getId() {
+        return id;
     }
 
-    public void setAlbumcover(int albumcover) {
-        this.albumcover = albumcover;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getAlbumart() {return albumart;}
+
+    public void setAlbumart(String albumart) {this.albumart = albumart;}
+
+    public int getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(int tracks) {
+        this.tracks = tracks;
     }
 }
