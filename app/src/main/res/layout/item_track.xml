@@ -1,53 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#a6a5ba">
+    android:padding="1dp">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/cover"
-        android:id="@+id/iv_track"/>
-
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:elevation="3dp"
+        app:cardCornerRadius="@dimen/cardview_default_radius">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/tv_song"
-            android:textSize="15sp"
-            android:fontFamily="@font/montserrat"
-            android:paddingTop="20dp"
-            android:text="Townie"
-            android:layout_marginLeft="15dp"
-            android:textColor="#ffffff"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#5b6a84">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:id="@+id/tv_artist"
-            android:textSize="10sp"
-            android:text="Mitski"
-            android:fontFamily="@font/montserrat"
-            android:layout_marginLeft="15dp"
-            android:textColor="#ffffff"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"/>
-    </LinearLayout>
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/cover"
+                android:id="@+id/iv_track"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:id="@+id/tv_song"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/montserrat"
+                    android:paddingTop="20dp"
+                    android:text="Townie"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="#ffffff"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scrollHorizontally="true"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tv_artist"
+                    android:textSize="10sp"
+                    android:text="Mitski"
+                    android:fontFamily="@font/montserrat"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="#ffffff"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scrollHorizontally="true"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

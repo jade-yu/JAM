@@ -1,46 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background= "#FFA6A5BA"
-    android:layout_margin="20dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/iv_album"
-        android:src="@drawable/cover"/>
-    <TextView
-        android:layout_width="80dp"
-        android:layout_height="20dp"
-        android:id="@+id/tv_albumname"
-        android:text="bury me at make out creek"
-        android:fontFamily="@font/montserrat"
-        android:textColor="#fff"
-        android:textSize="15sp"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollHorizontally="true"
-        />
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="3dp"
+        app:cardCornerRadius="@dimen/cardview_default_radius">
 
-    <TextView
-        android:layout_width="80dp"
-        android:layout_height="20dp"
-        android:id="@+id/tv_albumartist"
-        android:text="Mitski"
-        android:fontFamily="@font/montserrat"
-        android:textColor="#fff"
-        android:textSize="12sp"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollHorizontally="true"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background= "#5b6a84">
 
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/iv_album"
+                android:src="@drawable/cover"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"/>
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:id="@+id/tv_albumname"
+                android:text="bury me at make out creek"
+                android:fontFamily="@font/montserrat"
+                android:textColor="#fff"
+                android:textSize="15sp"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                android:layout_marginLeft="6dp"/>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:id="@+id/tv_albumartist"
+                android:text="Mitski"
+                android:fontFamily="@font/montserrat"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                android:layout_marginLeft="6dp"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 
 </LinearLayout>

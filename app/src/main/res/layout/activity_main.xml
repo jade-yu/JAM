@@ -6,11 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="edu.dlsu.mobapde.jam.Activities.MainActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFA6A5BA"
+        android:background="@null"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -67,20 +66,24 @@
             android:id="@+id/tabcontent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null">
 
             <LinearLayout
                 android:id="@+id/footer"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
-                android:background="#FF172A3A"
+                android:background= "@drawable/footer_rounded"
                 android:baselineAligned="true"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+               android:layout_marginBottom="4dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
