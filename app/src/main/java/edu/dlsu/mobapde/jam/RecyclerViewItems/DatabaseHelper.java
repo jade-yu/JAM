@@ -13,6 +13,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String SCHEMA = "jam";
+    public static final String TRACKANDPLAYLIST = "trackandplaylist";
+    public static final String TRACKANDLYRICS = "trackandlyrics";
+    public static final String COLUMN_TRACKID = "trackid";
+    public static final String COLUMN_PLAYLISTID = "playlistid";
+    public static final String COLUMN_LYRICID = "lyricid";
     public static final int VERSION = 1;
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -48,6 +53,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ");";
 
         sqLiteDatabase.execSQL(playlist);
+
+        String trackandplaylist = "CREATE TABLE " + TRACKANDPLAYLIST + " ("
+                + COLUMN_TRACKID + " INTEGER,"
+                + COLUMN_PLAYLISTID + " INTEGER"
+                + ");";
+
+        sqLiteDatabase.execSQL(trackandplaylist);
+
+        String trackandlyrics = "CREATE TABLE " + TRACKANDLYRICS + " ("
+                + COLUMN_TRACKID + " INTEGER,"
+                + COLUMN_LYRICID + " INTEGER"
+                + ");";
+
+        sqLiteDatabase.execSQL(trackandlyrics);
     }
 
     @Override
@@ -59,6 +78,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(lyrics);
         String playlist = "DROP TABLE IF EXISTS " + Playlist.TABLE_NAME + ";";
         sqLiteDatabase.execSQL(playlist);
+        String trackandplaylist = "DROP TABLE IF EXISTS " + TRACKANDPLAYLIST + ";";
+        sqLiteDatabase.execSQL(trackandplaylist);
+        String trackandlyrics = "DROP TABLE IF EXISTS " + TRACKANDLYRICS + ";";
+        sqLiteDatabase.execSQL(trackandlyrics);
 
         onCreate(sqLiteDatabase);
     }
@@ -69,7 +92,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(Track.COLUMN_TITLE, track.getTitle());
         contentValues.put(Track.COLUMN_ARTIST, track.getArtist());
         contentValues.put(Track.COLUMN_ALBUM, track.getAlbumcover());
-        contentValues.put(Track.COLUMN_SAVED, track.getDuration());
+        if(track.getSaved() == true) {
+            contentValues.put(Track.COLUMN_SAVED, 1);
+        } else {
+            contentValues.put(Track.COLUMN_SAVED, 0);
+        }
 
         long id = db.insert(Track.TABLE_NAME, null, contentValues);
         db.close();
@@ -99,6 +126,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    public void addToPlaylist(long playlistid, long trackid){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_PLAYLISTID, playlistid);
+        contentValues.put(COLUMN_TRACKID, trackid);
+
+        db.insert(TRACKANDPLAYLIST, null, contentValues);
+        db.close();
+    }
+
+    public void addLyricstoTrack(long trackid, long lyricid){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_LYRICID, lyricid);
+        contentValues.put(COLUMN_TRACKID, trackid);
+
+        db.insert(TRACKANDLYRICS, null, contentValues);
+        db.close();
+    }
+
     public boolean deleteTrack(long id){
         SQLiteDatabase db = getWritableDatabase();
         int rowsAffected = db.delete(Track.TABLE_NAME, Track.COLUMN_ID + "=?", new String[]{id+""} );
@@ -120,6 +167,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected > 0;
     }
 
+    public boolean removeTrackfromPlaylist(long playlistid, long trackid){
+        SQLiteDatabase db = getWritableDatabase();
+        int rowsAffected = db.delete(TRACKANDPLAYLIST, COLUMN_PLAYLISTID + "=? AND " + COLUMN_TRACKID + "=?", new String[]{String.valueOf(playlistid), String.valueOf(trackid)});
+        db.close();
+        return rowsAffected > 0;
+    }
+
+    public boolean removeLyricsfromTrack(long trackid){
+        SQLiteDatabase db = getWritableDatabase();
+        int rowsAffected = db.delete(TRACKANDLYRICS,  COLUMN_TRACKID + "=?", new String[]{trackid+""});
+        db.close();
+        return rowsAffected > 0;
+    }
+
     public Track getTrack(long id){
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.query(Track.TABLE_NAME,
@@ -135,7 +196,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             t.setTitle(c.getString(c.getColumnIndex(Track.COLUMN_TITLE)));
             t.setArtist(c.getString(c.getColumnIndex(Track.COLUMN_ARTIST)));
             t.setAlbumcover(c.getInt(c.getColumnIndex(Track.COLUMN_ALBUM)));
-            t.setSaved(c.getInt(c.getColumnIndex(Track.COLUMN_SAVED)));
+            if(c.getInt(c.getColumnIndex(Track.COLUMN_SAVED)) == 1){
+                t.setSaved(true);
+            }else{
+                t.setSaved(false);
+            }
             t.setId(id);
         }
 
@@ -208,5 +273,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         return db.query(Playlist.TABLE_NAME, null, null, null, null, null, null );
+    }
+
+    public Cursor getAllTracksfromPlaylist(long playlistid){
+        SQLiteDatabase db = getReadableDatabase();
+
+        return db.query(TRACKANDPLAYLIST, null, COLUMN_PLAYLISTID + "=?", new String[]{playlistid+""}, null, null, null);
+    }
+
+    public Cursor getAllLyrics(long trackid){
+        SQLiteDatabase db = getReadableDatabase();
+
+        return db.query(TRACKANDLYRICS, null, COLUMN_TRACKID + "=?", new String[]{trackid+""}, null, null, null);
     }
 }

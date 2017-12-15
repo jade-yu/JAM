@@ -18,7 +18,7 @@ public class Track implements Parcelable {
     private String artist;
     private int albumcover;
     private int duration;
-    private int saved;
+    private boolean saved;
 
 
     public Track() {};
@@ -39,11 +39,11 @@ public class Track implements Parcelable {
         this.duration = duration;
     }
 
-    public int getSaved() {
+    public boolean getSaved() {
         return saved;
     }
 
-    public void setSaved(int saved) {
+    public void setSaved(boolean saved) {
         this.saved = saved;
     }
 
