@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import edu.dlsu.mobapde.jam.Activities.MainActivity;
 import edu.dlsu.mobapde.jam.R;
 
 public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHolder> {
@@ -49,8 +48,10 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
 
         holder.tvSong.setText(currentTrack.getTitle());
         holder.tvArtist.setText(currentTrack.getArtist());
-        if(currentTrack.getAlbumcover() != -1) {
-            holder.ivTrack.setImageResource(currentTrack.getAlbumcover());
+        if(currentTrack.getAlbum() != -1) {
+            //holder.ivTrack.setImageResource(currentTrack.getAlbum());
+        } else {
+            holder.ivTrack.setImageResource(R.drawable.noalbums);
         }
 
         //holder.itemView.setTag(123456, currentTrack);

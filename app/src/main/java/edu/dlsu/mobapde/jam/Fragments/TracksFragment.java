@@ -103,6 +103,7 @@ public class TracksFragment extends Fragment {
                 int titleColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
                 int idColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID);
                 int artistColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST);
+                int albumColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
                 int durationColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.DURATION);
 
                 //add songs to list
@@ -110,11 +111,12 @@ public class TracksFragment extends Fragment {
                     long id = musicCursor.getLong(idColumn);
                     String title = musicCursor.getString(titleColumn);
                     String artist = musicCursor.getString(artistColumn);
+                    int album = musicCursor.getInt(albumColumn);
                     int duration = musicCursor.getInt(durationColumn);
 
 //                    Log.d("title", title);
 
-                    tracks.add(new Track(id, title, artist, duration));
+                    tracks.add(new Track(id, title, artist, album, duration));
                 } while (musicCursor.moveToNext());
             }
 

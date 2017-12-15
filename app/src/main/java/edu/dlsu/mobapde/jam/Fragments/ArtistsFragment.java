@@ -60,7 +60,6 @@ public class ArtistsFragment extends Fragment {
         artistAdapter.setOnItemClickListener(new ArtistAdapter.onItemClickListener() {
             @Override
             public void onItemClick(Artist a) {
-                //TODO onItemClick implementation
                 Log.d("clickedartist", a.getArtist());
                 final ArrayList<Track> tracks = getTracks(a);
 
@@ -147,17 +146,19 @@ public class ArtistsFragment extends Fragment {
                 int titleColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
                 int idColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID);
                 int artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+                int albumColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
                 int durationColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
 
                 do {
                     long id = musicCursor.getLong(idColumn);
                     String title = musicCursor.getString(titleColumn);
                     String artist = musicCursor.getString(artistColumn);
+                    int album = musicCursor.getInt(albumColumn);
                     int duration = musicCursor.getInt(durationColumn);
 
 //                    Log.d("title", title);
 
-                    tracks.add(new Track(id, title, artist, duration));
+                    tracks.add(new Track(id, title, artist, album, duration));
                 } while (musicCursor.moveToNext());
             }
         }

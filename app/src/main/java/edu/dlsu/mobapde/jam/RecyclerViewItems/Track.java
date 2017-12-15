@@ -16,7 +16,7 @@ public class Track implements Parcelable {
     private long id;
     private String title;
     private String artist;
-    private int albumcover;
+    private int album;
     private int duration;
     private boolean saved;
 
@@ -27,15 +27,15 @@ public class Track implements Parcelable {
         this.id = id;
         this.title = title;
         this.artist = artist;
-        this.albumcover = -1;
+        this.album = -1;
         this.duration = duration;
     }
 
-    public Track(long id, String title, String artist, int albumcover, int duration) {
+    public Track(long id, String title, String artist, int album, int duration) {
         this.id = id;
         this.title = title;
         this.artist = artist;
-        this.albumcover = albumcover;
+        this.album = album;
         this.duration = duration;
     }
 
@@ -71,12 +71,12 @@ public class Track implements Parcelable {
         this.artist = artist;
     }
 
-    public int getAlbumcover() {
-        return albumcover;
+    public int getAlbum() {
+        return album;
     }
 
-    public void setAlbumcover(int albumcover) {
-        this.albumcover = albumcover;
+    public void setAlbum(int album) {
+        this.album = album;
     }
 
     public int getDuration() {
@@ -97,7 +97,7 @@ public class Track implements Parcelable {
         dest.writeLong(id);
         dest.writeString(title);
         dest.writeString(artist);
-        dest.writeInt(albumcover);
+        dest.writeInt(album);
         dest.writeInt(duration);
     }
 
@@ -105,7 +105,7 @@ public class Track implements Parcelable {
         id = in.readLong();
         title = in.readString();
         artist = in.readString();
-        albumcover = in.readInt();
+        album = in.readInt();
         duration = in.readInt();
     }
 

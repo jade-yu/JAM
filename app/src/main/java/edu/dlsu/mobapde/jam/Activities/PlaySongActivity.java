@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
@@ -15,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -199,6 +199,20 @@ public class PlaySongActivity extends AppCompatActivity {
         currentTrack = musicService.getCurrentTrack();
         tvTracksong.setText(currentTrack.getTitle());
         tvTrackartist.setText(currentTrack.getArtist());
+//        ivAlbumshow.setImageResource();
+
+        //TODO find album art from track
+        //TODO show album art in playSong
+//        if(currentTrack.getAlbum().getId() != -1) {
+//            if (currentAlbum.getAlbumart() == null) {
+//
+//                holder.ivIcon.setImageResource(R.drawable.noalbums);
+//
+//            } else {
+//                Drawable img = Drawable.createFromPath(currentAlbum.getAlbumart());
+//                holder.ivIcon.setImageDrawable(img);
+//            }
+//        }
 
 //        Log.d("playSong", "track duration " + currentTrack.getDuration());
 
@@ -299,12 +313,13 @@ public class PlaySongActivity extends AppCompatActivity {
             //setCurrentTrack(currentTrack);
             //TODO display lyrics
 
+            btnAdd.setVisibility(View.GONE);
+
             String[] inputLyrics = data.getStringExtra("lyrics").split("//n");
 
             Log.d("check lyrics", "Vlaalue" + inputLyrics[0]);
 
             for (int i = 0; i < inputLyrics.length; i++) {
-
                 Lyrics line = new Lyrics();
                 line.setLyric(inputLyrics[i]);
                 lyricsList.add(line);
