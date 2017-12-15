@@ -26,6 +26,7 @@ public class LyricsAdapter extends RecyclerView.Adapter<LyricsAdapter.LyricsView
 
     public void toArrayList(String s) {
 
+
     }
 
     @Override

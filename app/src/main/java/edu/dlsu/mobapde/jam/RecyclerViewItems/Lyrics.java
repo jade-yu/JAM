@@ -8,7 +8,30 @@ import java.util.ArrayList;
 
 public class Lyrics {
 
+    public static final String TABLE_NAME = "lyrics";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_LYRICS = "lyrics";
+    public static final String COLUMN_TRACKID = "trackid";
+
     private String wholeLyrics;
+    private int trackID;
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getTrackID() {
+        return trackID;
+    }
+
+    public void setTrackID(int trackID) {
+        this.trackID = trackID;
+    }
 
     public Lyrics(String wholeLyrics) {
         this.wholeLyrics = wholeLyrics;

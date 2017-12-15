@@ -5,6 +5,14 @@ import android.os.Parcelable;
 
 public class Track implements Parcelable {
 
+
+    public static final String TABLE_NAME = "track";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_ARTIST = "artist";
+    public static final String COLUMN_ALBUM = "album";
+    public static final String COLUMN_SAVED = "saved";
+
     private long id;
     private String title;
     private String artist;
