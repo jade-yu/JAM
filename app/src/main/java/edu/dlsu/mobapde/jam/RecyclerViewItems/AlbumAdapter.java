@@ -1,6 +1,7 @@
 package edu.dlsu.mobapde.jam.RecyclerViewItems;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +50,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         holder.tvAlbum.setText(currentAlbum.getTitle());
         holder.tvArtist.setText(currentAlbum.getArtist());
         if(currentAlbum.getId() != -1) {
-            Drawable img = Drawable.createFromPath(currentAlbum.getAlbumart());
-            holder.ivIcon.setImageDrawable(img);
+            if (currentAlbum.getAlbumart() == null) {
+
+                holder.ivIcon.setImageResource(R.drawable.noalbums);
+
+            } else {
+                Drawable img = Drawable.createFromPath(currentAlbum.getAlbumart());
+                holder.ivIcon.setImageDrawable(img);
+            }
         }
 
         holder.itemView.setTag(currentAlbum);
