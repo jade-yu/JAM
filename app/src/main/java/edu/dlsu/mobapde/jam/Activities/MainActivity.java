@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     TabLayout.Tab tracksTab, artistsTab, albumsTab, playlistsTab, favesTab;
 
-    LinearLayout llFooter;
+    RelativeLayout llFooter;
     ImageView ivMainAlbum;
     TextView tvMainsong, tvMainartist;
     ImageButton ibBack, ibPlay, ibNext;

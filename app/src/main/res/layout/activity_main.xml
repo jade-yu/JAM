@@ -67,15 +67,15 @@
             android:id="@+id/tabcontent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2" />
+            android:layout_weight="1"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null">
+            android:background="@null"
+            android:id="@+id/footer">
 
             <LinearLayout
-                android:id="@+id/footer"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:background= "@drawable/footer_rounded"
