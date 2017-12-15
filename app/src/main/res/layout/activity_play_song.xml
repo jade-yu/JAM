@@ -5,9 +5,6 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:id="@+id/st_layout">
-
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -113,33 +110,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/cover"
             />
-
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/tv_lyrics"-->
-            <!--android:text=""-->
-            <!--android:background="#88172A3A"/>-->
-
-        <!--<ScrollView-->
-            <!--android:id="@+id/scroller"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:scrollbars="vertical"-->
-            <!--android:fillViewport="true">-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/tv_lyrics"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1.0"-->
-                <!--android:textSize="15sp"-->
-                <!--android:textColor="#fff"-->
-                <!--android:textAlignment="center"-->
-                <!--android:fontFamily="@font/montserrat"-->
-                <!--android:text=""-->
-                <!--android:background="#88172A3A"/>-->
-        <!--</ScrollView>-->
 
         <android.support.v7.widget.RecyclerView
 

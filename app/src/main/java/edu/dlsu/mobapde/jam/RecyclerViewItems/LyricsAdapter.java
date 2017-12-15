@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import edu.dlsu.mobapde.jam.R;
 
@@ -18,17 +20,17 @@ import edu.dlsu.mobapde.jam.R;
 
 public class LyricsAdapter extends RecyclerView.Adapter<LyricsAdapter.LyricsViewHolder> {
 
-    ArrayList<String> lineLyrics = new ArrayList<>();
+    ArrayList<Lyrics> lineLyrics = new ArrayList<>();
 
-    public LyricsAdapter(String lyrics) {
-        toArrayList(lyrics);
+    public LyricsAdapter(ArrayList<Lyrics> lineLyrics) {
+        this.lineLyrics = lineLyrics;
 
     }
 
-    public void toArrayList(String s) {
-        String[] lyrics = s.split("\\n");
-        lineLyrics = (ArrayList<String>) Arrays.asList(lyrics);
-    }
+//    public void toArrayList(String s) {
+//        String[] lyrics = s.split("\\s+");
+//        lineLyrics =  Arrays.asList(lyrics);
+//    }
 
     @Override
     public LyricsAdapter.LyricsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,18 +41,19 @@ public class LyricsAdapter extends RecyclerView.Adapter<LyricsAdapter.LyricsView
     @Override
     public void onBindViewHolder(LyricsAdapter.LyricsViewHolder holder, int position) {
 
-        String currentLyrics = lineLyrics.get(position);
+        Lyrics currentLyrics = lineLyrics.get(position);
 
-        holder.tvLyrics.setText(currentLyrics);
+        holder.tvLyrics.setText(currentLyrics.getLyric());
         holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return lineLyrics.size();
     }
 
     public class LyricsViewHolder extends RecyclerView.ViewHolder {
+
         TextView tvLyrics;
 
         public LyricsViewHolder(View itemView) {
@@ -59,4 +62,5 @@ public class LyricsAdapter extends RecyclerView.Adapter<LyricsAdapter.LyricsView
 
         }
     }
+
 }

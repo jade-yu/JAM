@@ -10,16 +10,18 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxHeight="550dp"
         android:layout_marginRight="25dp"
         android:layout_marginLeft="25dp"
         android:id="@+id/et_lyrics"
         android:inputType="textCapSentences|textMultiLine"
         android:hint="Input Lyrics Here"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp">
 
     <Button
         android:layout_width="wrap_content"
@@ -28,8 +30,9 @@
         android:text="OK"
         android:backgroundTint="#375065"
         android:textColor="#fff"
-        android:fontFamily="@font/montserrat"/>
+        android:fontFamily="@font/montserrat"
+        android:layout_alignParentBottom="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

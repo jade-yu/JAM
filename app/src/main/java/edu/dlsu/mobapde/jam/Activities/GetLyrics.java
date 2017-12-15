@@ -27,8 +27,10 @@ public class GetLyrics extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
-                //i.putExtra("lyrics", something));
-                //TODO split lyrics by line
+                String lyrics = etGetLyrics.getText().toString();
+                Log.d("lyricss", "Valure" + lyrics);
+
+                i.putExtra("lyrics", lyrics);
                 //TODO push lyrics to database
 
                 setResult(RESULT_OK, i);

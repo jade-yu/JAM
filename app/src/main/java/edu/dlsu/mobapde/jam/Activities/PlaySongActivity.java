@@ -13,6 +13,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +27,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import edu.dlsu.mobapde.jam.R;
+import edu.dlsu.mobapde.jam.RecyclerViewItems.Lyrics;
+import edu.dlsu.mobapde.jam.RecyclerViewItems.LyricsAdapter;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.Track;
 import edu.dlsu.mobapde.jam.Service.MusicService;
 import edu.dlsu.mobapde.jam.Service.MusicService.MusicBinder;
@@ -34,7 +39,9 @@ public class PlaySongActivity extends AppCompatActivity {
 
     ImageView btnGoBack;
 
-    TextView tvTracksong, tvTrackartist, tvLyrics, tvTrackstart, tvTrackend;
+    RecyclerView rvLyrics;
+
+    TextView tvTracksong, tvTrackartist, tvTrackstart, tvTrackend;
     ImageView ivAlbumshow;
 
     ImageButton ibBacktrack, ibPlaytrack, ibNexttrack;
@@ -46,6 +53,8 @@ public class PlaySongActivity extends AppCompatActivity {
     Track currentTrack;
     ArrayList<Track> trackList;
 
+    ArrayList<Lyrics> lyricsList;
+
     private MusicService musicService;
     private Intent playIntent;
     private boolean musicBound = false;
@@ -56,11 +65,14 @@ public class PlaySongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_song);
 
+        lyricsList = new ArrayList<>();
+
         btnGoBack = findViewById(R.id.btn_goback);
+
+        rvLyrics = findViewById(R.id.rv_lyrics);
 
         tvTracksong = findViewById(R.id.tv_tracksong);
         tvTrackartist = findViewById(R.id.tv_trackartist);
-        tvLyrics = findViewById(R.id.tv_lyrics);
         ivAlbumshow = findViewById(R.id.iv_albumshow);
 
         ibBacktrack = findViewById(R.id.ib_backtrack);
@@ -122,6 +134,8 @@ public class PlaySongActivity extends AppCompatActivity {
                 playSong();
             }
         });
+
+
     }
 
     @Override
@@ -284,6 +298,22 @@ public class PlaySongActivity extends AppCompatActivity {
             //TODO get lyrics from db
             //setCurrentTrack(currentTrack);
             //TODO display lyrics
+
+            String[] inputLyrics = data.getStringExtra("lyrics").split("//n");
+
+            Log.d("check lyrics", "Vlaalue" + inputLyrics[0]);
+
+            for (int i = 0; i < inputLyrics.length; i++) {
+
+                Lyrics line = new Lyrics();
+                line.setLyric(inputLyrics[i]);
+                lyricsList.add(line);
+            }
+
+            LyricsAdapter lyricsAdapter = new LyricsAdapter(lyricsList);
+
+            rvLyrics.setAdapter(lyricsAdapter);
+            rvLyrics.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
         }
     }
 
