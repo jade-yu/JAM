@@ -67,6 +67,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player.setOnPreparedListener(this);
         player.setOnCompletionListener(this);
         player.setOnErrorListener(this);
+
+        tracks = new ArrayList<>();
     }
 
     public class MusicBinder extends Binder {
@@ -192,11 +194,17 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public boolean isSame(Track t, ArrayList<Track> list, int p) {
         boolean flag = true;
 
-        if(p == currentPosition && t.getId() == getCurrentTrack().getId() && tracks.size() == list.size()) {
-            for(int i = 0 ; i < tracks.size() && flag ; i++) {
-                if(tracks.get(i).getId() != list.get(i).getId()) {
-                    flag = false;
+        if(!tracks.isEmpty()) {
+            if(p == currentPosition
+                    && t.getId() == getCurrentTrack().getId()
+                    && tracks.size() == list.size()) {
+                for(int i = 0 ; i < tracks.size() && flag ; i++) {
+                    if(tracks.get(i).getId() != list.get(i).getId()) {
+                        flag = false;
+                    }
                 }
+            } else {
+                flag = false;
             }
         } else {
             flag = false;
