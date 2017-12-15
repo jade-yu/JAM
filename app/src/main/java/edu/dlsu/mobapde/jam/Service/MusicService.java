@@ -144,6 +144,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 .setSmallIcon(R.drawable.appicon)
                 .setTicker(getCurrentTrack().getTitle())
                 .setOngoing(true)
+                .setSubText(getCurrentTrack().getArtist())
                 .setContentTitle("Playing")
                 .setContentText(getCurrentTrack().getTitle());
         Notification not = builder.build();
