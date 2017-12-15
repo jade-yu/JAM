@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -61,9 +60,40 @@ public class MainActivity extends AppCompatActivity {
     private Intent playIntent;
     private boolean musicBound = false;
 
+    private static boolean active = false;
+
+    public void setCurrentTrack(Track track) {
+        if(MusicService.isActive()) {
+            llFooter.setVisibility(View.VISIBLE);
+        }
+
+        currentTrack = track;
+
+        if(currentTrack.getAlbumcover() != -1) {
+            ivMainAlbum.setImageResource(currentTrack.getAlbumcover());
+        }
+        tvMainsong.setText(currentTrack.getTitle());
+        tvMainartist.setText(currentTrack.getArtist());
+    }
+
+    public void setTrackList(ArrayList<Track> trackList) {
+        this.trackList = trackList;
+    }
+
+    public void setCurrentPosition(int pos) {
+        currentPosition = pos;
+    }
+
+    public static boolean isActive() {
+        return active;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        active = true;
+
         setContentView(R.layout.activity_main);
 
         etSearch = findViewById(R.id.et_search);
@@ -78,14 +108,6 @@ public class MainActivity extends AppCompatActivity {
         ibBack = findViewById(R.id.ib_back);
         ibPlay = findViewById(R.id.ib_play);
         ibNext = findViewById(R.id.ib_next);
-
-        //show main tabs
-        initializeTabs();
-
-        //show footer if a song is playing
-        if(currentTrack == null) {
-            llFooter.setVisibility(View.GONE);
-        }
 
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,69 +163,15 @@ public class MainActivity extends AppCompatActivity {
                 setCurrentTrack(musicService.getCurrentTrack());
             }
         });
-    }
 
-    public void setCurrentTrack(Track track) {
+        //show main tabs
+        initializeTabs();
+
         if(MusicService.isActive()) {
             llFooter.setVisibility(View.VISIBLE);
-        }
-
-        currentTrack = track;
-
-        if(currentTrack.getAlbumcover() != -1) {
-            ivMainAlbum.setImageResource(currentTrack.getAlbumcover());
-        }
-        tvMainsong.setText(currentTrack.getTitle());
-        tvMainartist.setText(currentTrack.getArtist());
-    }
-
-    public void setTrackList(ArrayList<Track> trackList) {
-        this.trackList = trackList;
-    }
-
-    public void setCurrentPosition(int pos) {
-        currentPosition = pos;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        //TODO implement listener to update footer
-
-        if(MusicService.isActive()) {
-            ServiceConnection musicConnection = new ServiceConnection() {
-
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
-                    musicService = binder.getService();
-
-                    currentTrack = musicService.getCurrentTrack();
-                    trackList = musicService.getTrackList();
-
-                    musicBound = true;
-
-                    setCurrentTrack(currentTrack);
-
-                    if(musicService.isPlaying()) {
-                        ibPlay.setBackgroundResource(R.drawable.btn_pause);
-                    } else {
-                        ibPlay.setBackgroundResource(R.drawable.btn_play);
-                    }
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-                    musicBound = false;
-                }
-            };
-
-            if(playIntent == null && !musicBound) {
-                playIntent = new Intent(this, MusicService.class);
-                startService(playIntent);
-                bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            }
+            bindMusicService();
+        } else {
+            llFooter.setVisibility(View.GONE);
         }
     }
 
@@ -216,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initializeTabs() {
-
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
 
         tracksTab = tabLayout.newTab();
@@ -300,6 +267,57 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    public void bindMusicService() {
+        ServiceConnection musicConnection = new ServiceConnection() {
+
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+                musicService = binder.getService();
+
+                currentTrack = musicService.getCurrentTrack();
+                trackList = musicService.getTrackList();
+
+                musicBound = true;
+
+                setCurrentTrack(currentTrack);
+
+                if(musicService.isPlaying()) {
+                    ibPlay.setBackgroundResource(R.drawable.btn_pause);
+                } else {
+                    ibPlay.setBackgroundResource(R.drawable.btn_play);
+                }
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                musicBound = false;
+            }
+        };
+
+        if(playIntent == null && !musicBound) {
+            playIntent = new Intent(this, MusicService.class);
+            startService(playIntent);
+            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //TODO implement listener to update footer
+
+        if(MusicService.isActive()) {
+            bindMusicService();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        active = false;
+        super.onDestroy();
     }
 }

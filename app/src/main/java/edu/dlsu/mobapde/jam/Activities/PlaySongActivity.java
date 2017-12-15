@@ -91,11 +91,7 @@ public class PlaySongActivity extends AppCompatActivity {
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent();
-                i.putExtra("currentTrack", musicService.getCurrentTrack());
-
-                setResult(RESULT_OK, i);
-                finish();
+                onBackPressed();
             }
         });
 
@@ -293,10 +289,16 @@ public class PlaySongActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent();
-        i.putExtra("currentTrack", musicService.getCurrentTrack());
+        if(MainActivity.isActive()) {
+            Intent i = new Intent();
+            i.putExtra("currentTrack", musicService.getCurrentTrack());
 
-        setResult(RESULT_OK, i);
+            setResult(RESULT_OK, i);
+        } else {
+            Intent i = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(i);
+        }
+
         super.onBackPressed();
     }
 

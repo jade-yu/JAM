@@ -98,15 +98,18 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
         player.prepareAsync();
         playing = true;
+        startNotification();
     }
 
     public void togglePlay() {
         if(player.isPlaying()) {
             player.pause();
             playing = false;
+            stopForeground(true);
         } else {
             player.start();
             playing = true;
+            startNotification();
         }
     }
 
@@ -128,6 +131,24 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         }
 
         playTrack();
+    }
+
+    public void startNotification() {
+        Intent notIntent = new Intent(this, PlaySongActivity.class);
+        notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendInt = PendingIntent.getActivity(this, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification.Builder builder = new Notification.Builder(this);
+
+        builder.setContentIntent(pendInt)
+                .setSmallIcon(R.drawable.appicon)
+                .setTicker(getCurrentTrack().getTitle())
+                .setOngoing(true)
+                .setContentTitle("Playing")
+                .setContentText(getCurrentTrack().getTitle());
+        Notification not = builder.build();
+
+        startForeground(NOTIFY_ID, not);
     }
 
     @Override
@@ -160,21 +181,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onPrepared(MediaPlayer mp) {
         mp.start();
-
-        Intent notIntent = new Intent(this, PlaySongActivity.class);
-        notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendInt = PendingIntent.getActivity(this, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Notification.Builder builder = new Notification.Builder(this);
-
-        builder.setContentIntent(pendInt)
-                .setSmallIcon(R.drawable.btn_play)
-                .setTicker(getCurrentTrack().getTitle())
-                .setOngoing(true)
-                .setContentTitle("Playing").setContentText(getCurrentTrack().getTitle());
-        Notification not = builder.build();
-
-        startForeground(NOTIFY_ID, not);
     }
 
     @Override
