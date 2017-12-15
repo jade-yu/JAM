@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.dlsu.mobapde.jam.R;
 
@@ -25,8 +26,8 @@ public class LyricsAdapter extends RecyclerView.Adapter<LyricsAdapter.LyricsView
     }
 
     public void toArrayList(String s) {
-
-
+        String[] lyrics = s.split("\\n");
+        lineLyrics = (ArrayList<String>) Arrays.asList(lyrics);
     }
 
     @Override

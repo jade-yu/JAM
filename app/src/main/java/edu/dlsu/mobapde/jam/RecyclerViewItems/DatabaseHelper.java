@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Track.COLUMN_TITLE + " TEXT,"
                 + Track.COLUMN_ARTIST + " TEXT,"
                 + Track.COLUMN_ALBUM + " TEXT,"
-                + Track.COLUMN_SAVED + " TEXT"
+                + Track.COLUMN_SAVED + " INTEGER"
                 + ");";
 
         sqLiteDatabase.execSQL(track);
@@ -35,10 +35,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String lyrics = "CREATE TABLE " + Lyrics.TABLE_NAME + " ("
                 + Lyrics.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Lyrics.COLUMN_LYRICS + " TEXT,"
-                + Lyrics.COLUMN_ID + " ID"
+                + Lyrics.COLUMN_ID + " INTEGER PRIMARY KEY"
+                + Lyrics.COLUMN_TIMESTART + "TIME"
                 + ");";
 
         sqLiteDatabase.execSQL(lyrics);
+
+        String playlist = "CREATE TABLE " + Playlist.TABLE_NAME + " ("
+                + Playlist.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Playlist.COLUMN_NAME + " TEXT,"
+                + Playlist.COLUMN_POSITION + " INTEGER"
+                + ");";
+
+        sqLiteDatabase.execSQL(playlist);
     }
 
     @Override
@@ -48,6 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(track);
         String lyrics = "DROP TABLE IF EXISTS " + Lyrics.TABLE_NAME + ";";
         sqLiteDatabase.execSQL(lyrics);
+        String playlist = "DROP TABLE IF EXISTS " + Playlist.TABLE_NAME + ";";
+        sqLiteDatabase.execSQL(playlist);
 
         onCreate(sqLiteDatabase);
     }
@@ -68,10 +79,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long addLyrics(Lyrics lyrics){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Lyrics.COLUMN_LYRICS, lyrics.getWholeLyrics());
+        contentValues.put(Lyrics.COLUMN_LYRICS, lyrics.getLyric());
         contentValues.put(Lyrics.COLUMN_TRACKID, lyrics.getTrackID());
+        contentValues.put(Lyrics.COLUMN_TIMESTART, lyrics.getTimestart());
 
         long id = db.insert(Lyrics.TABLE_NAME, null, contentValues);
+        db.close();
+        return id;
+    }
+
+    public long addPlaylist(Playlist playlist){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Playlist.COLUMN_NAME, playlist.getPlaylistname());
+        contentValues.put(Playlist.COLUMN_POSITION, playlist.getPosition());
+
+        long id = db.insert(Playlist.TABLE_NAME, null, contentValues);
         db.close();
         return id;
     }
@@ -86,6 +109,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean deleteLyrics(long id){
         SQLiteDatabase db = getWritableDatabase();
         int rowsAffected = db.delete(Lyrics.TABLE_NAME, Lyrics.COLUMN_ID + "=?", new String[]{id+""} );
+        db.close();
+        return rowsAffected > 0;
+    }
+
+    public boolean deletePlaylist(long id) {
+        SQLiteDatabase db = getWritableDatabase();
+        int rowsAffected = db.delete(Playlist.TABLE_NAME, Playlist.COLUMN_ID + "=?", new String[]{id+""} );
         db.close();
         return rowsAffected > 0;
     }
@@ -105,7 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             t.setTitle(c.getString(c.getColumnIndex(Track.COLUMN_TITLE)));
             t.setArtist(c.getString(c.getColumnIndex(Track.COLUMN_ARTIST)));
             t.setAlbumcover(c.getInt(c.getColumnIndex(Track.COLUMN_ALBUM)));
-            t.setDuration(c.getInt(c.getColumnIndex(Track.COLUMN_SAVED)));
+            t.setSaved(c.getInt(c.getColumnIndex(Track.COLUMN_SAVED)));
             t.setId(id);
         }
 
@@ -127,8 +157,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Lyrics l = null;
         if(c.moveToFirst()){
             l = new Lyrics();
-            l.setWholeLyrics(c.getString(c.getColumnIndex(Lyrics.COLUMN_LYRICS)));
+            l.setLyric(c.getString(c.getColumnIndex(Lyrics.COLUMN_LYRICS)));
             l.setTrackID(c.getInt(c.getColumnIndex(Lyrics.COLUMN_ID)));
+            l.setTimestart(c.getString(c.getColumnIndex(Lyrics.COLUMN_TIMESTART)));
             l.setId(id);
         }
 
@@ -136,6 +167,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return l;
+    }
+
+    public Playlist getPlaylist(long id) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.query(Playlist.TABLE_NAME,
+                null,
+                Playlist.COLUMN_ID + "=?",
+                new String[]{id+""},
+                null,
+                null,
+                null);
+        Playlist p = null;
+        if(c.moveToFirst()){
+            p = new Playlist();
+            p.setPlaylistname(c.getString(c.getColumnIndex(Playlist.COLUMN_NAME)));
+            p.setPosition(c.getInt(c.getColumnIndex(Playlist.COLUMN_POSITION)));
+            p.setId(id);
+        }
+
+        c.close();
+        db.close();
+
+        return p;
     }
 
     public Cursor getAllTracksCursor(){
@@ -148,5 +202,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         return db.query(Lyrics.TABLE_NAME, null, null, null, null, null, null );
+    }
+
+    public Cursor getAllPlaylistCursor() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        return db.query(Playlist.TABLE_NAME, null, null, null, null, null, null );
     }
 }

@@ -1,5 +1,6 @@
 package edu.dlsu.mobapde.jam.RecyclerViewItems;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 /**
@@ -12,10 +13,20 @@ public class Lyrics {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_LYRICS = "lyrics";
     public static final String COLUMN_TRACKID = "trackid";
+    public static final String COLUMN_TIMESTART = "timestart";
 
-    private String wholeLyrics;
+    private String lyric;
     private int trackID;
     private long id;
+    private String timestart;
+
+    public String getTimestart() {
+        return timestart;
+    }
+
+    public void setTimestart(String timestart) {
+        this.timestart = timestart;
+    }
 
     public long getId() {
         return id;
@@ -33,18 +44,18 @@ public class Lyrics {
         this.trackID = trackID;
     }
 
-    public Lyrics(String wholeLyrics) {
-        this.wholeLyrics = wholeLyrics;
+    public Lyrics(String lyric) {
+        this.lyric = lyric;
     }
 
     public Lyrics() {}
 
-    public String getWholeLyrics() {
-        return wholeLyrics;
+    public String getLyric() {
+        return lyric;
     }
 
-    public void setWholeLyrics(String wholeLyrics) {
-        this.wholeLyrics = wholeLyrics;
+    public void setLyric(String lyric) {
+        this.lyric = lyric;
     }
 
 }
