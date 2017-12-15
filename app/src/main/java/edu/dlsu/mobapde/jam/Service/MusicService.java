@@ -24,6 +24,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private MediaPlayer player;
     private ArrayList<Track> tracks;
     private int currentPosition;
+    private boolean playing = false;
+
     private static boolean active = false;
     private static final int NOTIFY_ID = 1;
 
@@ -93,13 +95,16 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         }
 
         player.prepareAsync();
+        playing = true;
     }
 
     public void togglePlay() {
         if(player.isPlaying()) {
             player.pause();
+            playing = false;
         } else {
             player.start();
+            playing = true;
         }
     }
 
@@ -179,4 +184,25 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public static boolean isActive() {
         return active;
     }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public boolean isSame(Track t, ArrayList<Track> list, int p) {
+        boolean flag = true;
+
+        if(p == currentPosition && t.getId() == getCurrentTrack().getId() && tracks.size() == list.size()) {
+            for(int i = 0 ; i < tracks.size() && flag ; i++) {
+                if(tracks.get(i).getId() != list.get(i).getId()) {
+                    flag = false;
+                }
+            }
+        } else {
+            flag = false;
+        }
+
+        return flag;
+    }
+
 }

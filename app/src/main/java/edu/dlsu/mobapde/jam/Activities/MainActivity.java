@@ -3,7 +3,11 @@ package edu.dlsu.mobapde.jam.Activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     Track currentTrack;
     ArrayList<Track> trackList;
     int currentPosition;
+
+    private MusicService musicService;
+    private Intent playIntent;
+    private boolean musicBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,24 +113,31 @@ public class MainActivity extends AppCompatActivity {
         tvMainsong.setOnClickListener(oclPlaySong);
         tvMainartist.setOnClickListener(oclPlaySong);
 
-        ibBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo put functions
-            }
-        });
-
         ibPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo put functions
+                musicService.togglePlay();
+                if(musicService.isPlaying()) {
+                    ibPlay.setBackgroundResource(R.drawable.btn_pause);
+                } else {
+                    ibPlay.setBackgroundResource(R.drawable.btn_play);
+                }
+            }
+        });
+
+        ibBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.previousTrack();
+                setCurrentTrack(musicService.getCurrentTrack());
             }
         });
 
         ibNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo put functions
+                musicService.nextTrack();
+                setCurrentTrack(musicService.getCurrentTrack());
             }
         });
     }
@@ -153,12 +168,41 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        //TODO get track info to update footer
         //TODO implement listener to update footer
-//        updateTrack();
 
         if(MusicService.isActive()) {
+            ServiceConnection musicConnection = new ServiceConnection() {
 
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+                    musicService = binder.getService();
+
+                    currentTrack = musicService.getCurrentTrack();
+                    trackList = musicService.getTrackList();
+
+                    musicBound = true;
+
+                    setCurrentTrack(currentTrack);
+
+                    if(musicService.isPlaying()) {
+                        ibPlay.setBackgroundResource(R.drawable.btn_pause);
+                    } else {
+                        ibPlay.setBackgroundResource(R.drawable.btn_play);
+                    }
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    musicBound = false;
+                }
+            };
+
+            if(playIntent == null && !musicBound) {
+                playIntent = new Intent(this, MusicService.class);
+                startService(playIntent);
+                bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            }
         }
     }
 
@@ -167,16 +211,7 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == REQUEST_CODE_PLAY_SONG && resultCode == RESULT_OK) {
             currentTrack = data.getParcelableExtra("currentTrack");
             setCurrentTrack(currentTrack);
-            Log.d("onActivityResult", "set current track to " + currentTrack.getTitle());
-        } else {
-            Log.d("onActivityResult", "set current track failed");
         }
-    }
-
-    public void updateTrack(Track t, ArrayList<Track> list, int pos) {
-        currentTrack = t;
-        trackList = list;
-        currentPosition = pos;
     }
 
     public void initializeTabs() {
