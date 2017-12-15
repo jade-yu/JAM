@@ -1,6 +1,7 @@
 package edu.dlsu.mobapde.jam.Activities;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import edu.dlsu.mobapde.jam.Database.DatabaseHelper;
 import edu.dlsu.mobapde.jam.R;
 
 public class GetLyrics extends AppCompatActivity {
@@ -28,13 +30,14 @@ public class GetLyrics extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent();
                 String lyrics = etGetLyrics.getText().toString();
-                Log.d("lyricss", "Valure" + lyrics);
-
                 i.putExtra("lyrics", lyrics);
-                //TODO push lyrics to database
+//                Log.d("lyricss", "Valure" + lyrics);
+
+                DatabaseHelper db = new DatabaseHelper(getBaseContext());
+                db.addLyrics(lyrics);
 
                 setResult(RESULT_OK, i);
-                Log.d("GetLyrics", "lyrics ok");
+//                Log.d("GetLyrics", "lyrics ok");
                 finish();
             }
         });

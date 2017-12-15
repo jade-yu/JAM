@@ -1,18 +1,19 @@
-package edu.dlsu.mobapde.jam.RecyclerViewItems;
+package edu.dlsu.mobapde.jam.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-/**
- * Created by Asus on 14/12/2017.
- */
+import edu.dlsu.mobapde.jam.RecyclerViewItems.Lyrics;
+import edu.dlsu.mobapde.jam.RecyclerViewItems.Playlist;
+import edu.dlsu.mobapde.jam.RecyclerViewItems.Track;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String SCHEMA = "jam";
+    public static final String SCHEMA = "jamdb";
     public static final String TRACKANDPLAYLIST = "trackandplaylist";
     public static final String TRACKANDLYRICS = "trackandlyrics";
     public static final String COLUMN_TRACKID = "trackid";
@@ -20,12 +21,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LYRICID = "lyricid";
     public static final int VERSION = 1;
 
-    public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DatabaseHelper(Context context) {
         super(context, SCHEMA, null, VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+    public void onCreate(SQLiteDatabase db) {
 
         String track = "CREATE TABLE " + Track.TABLE_NAME + " ("
                 + Track.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -35,16 +36,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Track.COLUMN_SAVED + " INTEGER"
                 + ");";
 
-        sqLiteDatabase.execSQL(track);
+        db.execSQL(track);
 
         String lyrics = "CREATE TABLE " + Lyrics.TABLE_NAME + " ("
                 + Lyrics.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Lyrics.COLUMN_LYRICS + " TEXT,"
-                + Lyrics.COLUMN_ID + " INTEGER PRIMARY KEY"
+                + Lyrics.COLUMN_TRACKID + " INTEGER,"
                 + Lyrics.COLUMN_TIMESTART + "TIME"
                 + ");";
 
-        sqLiteDatabase.execSQL(lyrics);
+        db.execSQL(lyrics);
 
         String playlist = "CREATE TABLE " + Playlist.TABLE_NAME + " ("
                 + Playlist.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -52,21 +53,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Playlist.COLUMN_POSITION + " INTEGER"
                 + ");";
 
-        sqLiteDatabase.execSQL(playlist);
+        db.execSQL(playlist);
 
         String trackandplaylist = "CREATE TABLE " + TRACKANDPLAYLIST + " ("
                 + COLUMN_TRACKID + " INTEGER,"
                 + COLUMN_PLAYLISTID + " INTEGER"
                 + ");";
 
-        sqLiteDatabase.execSQL(trackandplaylist);
+        db.execSQL(trackandplaylist);
 
         String trackandlyrics = "CREATE TABLE " + TRACKANDLYRICS + " ("
                 + COLUMN_TRACKID + " INTEGER,"
                 + COLUMN_LYRICID + " INTEGER"
                 + ");";
 
-        sqLiteDatabase.execSQL(trackandlyrics);
+        db.execSQL(trackandlyrics);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Track.COLUMN_TITLE, track.getTitle());
         contentValues.put(Track.COLUMN_ARTIST, track.getArtist());
-        contentValues.put(Track.COLUMN_ALBUM, track.getAlbumcover());
+        contentValues.put(Track.COLUMN_ALBUM, track.getAlbum());
         if(track.getSaved() == true) {
             contentValues.put(Track.COLUMN_SAVED, 1);
         } else {
@@ -113,6 +114,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long id = db.insert(Lyrics.TABLE_NAME, null, contentValues);
         db.close();
         return id;
+    }
+
+    public boolean addLyrics(String data){
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] lyrics = data.split("\\s+");
+
+        for (String s: lyrics) {
+            Log.d("DatabaseHelper", "addLyrics: " + s);
+        }
+        //TODO put lyrics in DB
+        /*
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Lyrics.COLUMN_LYRICS, lyrics.getLyric());
+        contentValues.put(Lyrics.COLUMN_TRACKID, lyrics.getTrackID());
+        contentValues.put(Lyrics.COLUMN_TIMESTART, lyrics.getTimestart());
+
+        long id = db.insert(Lyrics.TABLE_NAME, null, contentValues);*/
+        db.close();
+        return true;
     }
 
     public long addPlaylist(Playlist playlist){
@@ -195,7 +216,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             t = new Track();
             t.setTitle(c.getString(c.getColumnIndex(Track.COLUMN_TITLE)));
             t.setArtist(c.getString(c.getColumnIndex(Track.COLUMN_ARTIST)));
-            t.setAlbumcover(c.getInt(c.getColumnIndex(Track.COLUMN_ALBUM)));
+            t.setAlbum(c.getInt(c.getColumnIndex(Track.COLUMN_ALBUM)));
             if(c.getInt(c.getColumnIndex(Track.COLUMN_SAVED)) == 1){
                 t.setSaved(true);
             }else{
