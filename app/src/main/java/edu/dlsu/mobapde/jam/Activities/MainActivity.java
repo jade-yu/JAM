@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -63,17 +64,20 @@ public class MainActivity extends AppCompatActivity {
     private static boolean active = false;
 
     public void setCurrentTrack(Track track) {
+        currentTrack = track;
+
+        if(currentTrack.getAlbum() != -1) {
+            //ivMainAlbum.setImageResource(currentTrack.getAlbum());
+        } else {
+            ivMainAlbum.setImageResource(R.drawable.noalbums);
+        }
+
+        tvMainsong.setText(currentTrack.getTitle());
+        tvMainartist.setText(currentTrack.getArtist());
+
         if(MusicService.isActive()) {
             llFooter.setVisibility(View.VISIBLE);
         }
-
-        currentTrack = track;
-
-        if(currentTrack.getAlbumcover() != -1) {
-            ivMainAlbum.setImageResource(currentTrack.getAlbumcover());
-        }
-        tvMainsong.setText(currentTrack.getTitle());
-        tvMainartist.setText(currentTrack.getArtist());
     }
 
     public void setTrackList(ArrayList<Track> trackList) {
@@ -123,9 +127,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), PlaySongActivity.class);
-                i.putParcelableArrayListExtra("trackList", trackList);
-                i.putExtra("currentTrack", currentTrack);
-                i.putExtra("position", currentPosition);
 
                 startActivity(i);
             }
@@ -289,6 +290,14 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     ibPlay.setBackgroundResource(R.drawable.btn_play);
                 }
+
+                musicService.getMediaPlayer().setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        musicService.onCompletion(mp);
+                        setCurrentTrack(musicService.getCurrentTrack());
+                    }
+                });
             }
 
             @Override
@@ -304,11 +313,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //TODO fix onresume
     @Override
     protected void onResume() {
         super.onResume();
-
-        //TODO implement listener to update footer
 
         if(MusicService.isActive()) {
             bindMusicService();
