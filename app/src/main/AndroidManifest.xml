@@ -23,7 +23,8 @@
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.SearchLyricsActivity" />
         <activity android:name=".Activities.SearchTrackActivity" />
-        <activity android:name=".Activities.PlaySongActivity"></activity>
+        <activity android:name=".Activities.PlaySongActivity" />
+        <activity android:name=".Activities.GetLyrics" />
         <service android:name=".Service.MusicService"/>
     </application>
 

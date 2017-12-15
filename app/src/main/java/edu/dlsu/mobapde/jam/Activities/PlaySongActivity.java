@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -29,12 +30,15 @@ import edu.dlsu.mobapde.jam.Service.MusicService.MusicBinder;
 
 public class PlaySongActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE_GET_LYRICS = 1;
+
     ImageView btnGoBack;
 
     TextView tvTracksong, tvTrackartist, tvLyrics, tvTrackstart, tvTrackend;
     ImageView ivAlbumshow;
 
     ImageButton ibBacktrack, ibPlaytrack, ibNexttrack;
+    Button btnAdd;
 
     SeekBar sbProgress;
     Handler seekHandler;
@@ -67,6 +71,23 @@ public class PlaySongActivity extends AppCompatActivity {
         tvTrackstart = findViewById(R.id.tv_trackstart);
         tvTrackend = findViewById(R.id.tv_trackend);
 
+        btnAdd = findViewById(R.id.btn_addlyrics);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(musicService.isPlaying()) {
+                    musicService.togglePlay();
+                    ibPlaytrack.setBackgroundResource(R.drawable.btn_play);
+                }
+
+                Intent i = new Intent(getBaseContext(), GetLyrics.class);
+                i.putExtra("currentTrack", currentTrack);
+
+                startActivityForResult(i, REQUEST_CODE_GET_LYRICS);
+            }
+        });
+
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +103,11 @@ public class PlaySongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 musicService.togglePlay();
+                if(musicService.isPlaying()) {
+                    ibPlaytrack.setBackgroundResource(R.drawable.btn_pause);
+                } else {
+                    ibPlaytrack.setBackgroundResource(R.drawable.btn_play);
+                }
             }
         });
 
@@ -107,15 +133,13 @@ public class PlaySongActivity extends AppCompatActivity {
         super.onStart();
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
-//        Log.d("onStart", "permission check");
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.MEDIA_CONTENT_CONTROL}, 1);
-//            Log.d("permission check", "media content control");
         }
 
         if(playIntent == null && !musicBound) {
-//            Log.d("debug", "playIntent null");
+            Log.d("debug", "playIntent null");
             playIntent = new Intent(this, MusicService.class);
             startService(playIntent);
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
@@ -137,8 +161,13 @@ public class PlaySongActivity extends AppCompatActivity {
 //                Log.d("position", getIntent().getIntExtra("position", -1) + "");
                 currentTrack = getIntent().getParcelableExtra("currentTrack");
                 trackList = getIntent().getParcelableArrayListExtra("trackList");
-                musicService.setTracks(trackList);
-                musicService.setCurrentPosition(getIntent().getIntExtra("position", -1));
+
+                if(!musicService.isSame(currentTrack, trackList, getIntent().getIntExtra("position", -1))) {
+                    musicService.setTracks(trackList);
+                    musicService.setCurrentPosition(getIntent().getIntExtra("position", -1));
+
+                    musicService.playTrack();
+                }
             } else {
 //                Log.d("position", "-1");
                 currentTrack = musicService.getCurrentTrack();
@@ -146,8 +175,6 @@ public class PlaySongActivity extends AppCompatActivity {
             }
 
             musicBound = true;
-
-            musicService.playTrack();
 
             playSong();
         }
@@ -170,6 +197,10 @@ public class PlaySongActivity extends AppCompatActivity {
 
         seekHandler = new Handler();
         updateSeekBar();
+
+        if(musicService.isPlaying()) {
+            ibPlaytrack.setBackgroundResource(R.drawable.btn_pause);
+        }
 
 //        Log.d("playSong", "started");
 
@@ -248,6 +279,16 @@ public class PlaySongActivity extends AppCompatActivity {
 
         // return timer string
         return finalTimerString;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE_GET_LYRICS && resultCode == RESULT_OK) {
+            Log.d("PlaySongActivity", "onActivityResult: ok");
+            //TODO get lyrics from db
+            //setCurrentTrack(currentTrack);
+            //TODO display lyrics
+        }
     }
 
     @Override
