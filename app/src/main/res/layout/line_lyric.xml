@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
         android:id="@+id/tv_lyrics"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1.0"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:layout_margin="40dp"
         android:textColor="#ffffff"
         android:textAlignment="center"
