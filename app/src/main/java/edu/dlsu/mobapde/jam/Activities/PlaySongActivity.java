@@ -49,7 +49,7 @@ public class PlaySongActivity extends AppCompatActivity {
     TextView tvTracksong, tvTrackartist, tvTrackstart, tvTrackend;
     ImageView ivAlbumshow;
 
-    ImageButton ibBacktrack, ibPlaytrack, ibNexttrack;
+    ImageButton ibBacktrack, ibPlaytrack, ibNexttrack, ibDown;
     Button btnAdd;
 
     SeekBar sbProgress;
@@ -83,6 +83,7 @@ public class PlaySongActivity extends AppCompatActivity {
         ibBacktrack = findViewById(R.id.ib_backtrack);
         ibPlaytrack = findViewById(R.id.ib_playtrack);
         ibNexttrack = findViewById(R.id.ib_nexttrack);
+        ibDown = findViewById(R.id.ib_down);
 
         sbProgress = findViewById(R.id.sb_progress);
         tvTrackstart = findViewById(R.id.tv_trackstart);
@@ -291,18 +292,37 @@ public class PlaySongActivity extends AppCompatActivity {
     public void showLyrics() {
         DatabaseHelper db = new DatabaseHelper(getBaseContext());
 
+
         ArrayList<Lyrics> lyrics = db.getTrackLyrics(currentTrack.getId());
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false);
 
         if(lyrics.size() > 0) {
             btnAdd.setVisibility(View.GONE);
+            ibDown.setVisibility(View.VISIBLE);
         } else {
             btnAdd.setVisibility(View.VISIBLE);
+            ibDown.setVisibility(View.GONE);
         }
 
         LyricsAdapter lyricsAdapter = new LyricsAdapter(lyrics);
 
         rvLyrics.setAdapter(lyricsAdapter);
-        rvLyrics.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
+        rvLyrics.setLayoutManager(layoutManager);
+
+        ibDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int totalItemCount = rvLyrics.getAdapter().getItemCount();
+                if (totalItemCount <= 0) return;
+                int lastVisibleItemIndex = layoutManager.findLastVisibleItemPosition();
+
+                if (lastVisibleItemIndex >= totalItemCount) return;
+                layoutManager.smoothScrollToPosition(rvLyrics, null, lastVisibleItemIndex + 1);
+            }
+        });
+
     }
 
     Runnable runnable = new Runnable() {

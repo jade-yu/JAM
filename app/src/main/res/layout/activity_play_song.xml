@@ -101,14 +101,41 @@
             android:src="@drawable/cover"
             />
 
-        <android.support.v7.widget.RecyclerView
-
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#88172A3A"
-            android:id="@+id/rv_lyrics">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/footer_rounded"
+            android:orientation="vertical">
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="10dp"
+                android:id="@+id/rv_lyrics">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="#E6172A3A">
+
+                <ImageButton
+                    android:id="@+id/ib_down"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:background="@null"
+                    android:src="@drawable/down"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"
