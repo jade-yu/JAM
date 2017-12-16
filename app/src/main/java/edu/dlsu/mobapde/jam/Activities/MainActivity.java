@@ -243,15 +243,12 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (tab.getPosition()) {
                     case TRACKS_TAB:
-                        Log.d("onTabSelected", "TRACKS");
                         fragment = new TracksFragment();
                         break;
                     case ARTISTS_TAB:
-                        Log.d("onTabSelected", "ARTISTS");
                         fragment = new ArtistsFragment();
                         break;
                     case ALBUMS_TAB:
-                        Log.d("onTabSelected", "ALBUMS");
                         fragment = new AlbumsFragment();
                         break;
 //                    case PLAYLISTS_TAB:

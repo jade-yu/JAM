@@ -27,11 +27,6 @@ public class LyricsAdapter extends RecyclerView.Adapter<LyricsAdapter.LyricsView
 
     }
 
-//    public void toArrayList(String s) {
-//        String[] lyrics = s.split("\\s+");
-//        lineLyrics =  Arrays.asList(lyrics);
-//    }
-
     @Override
     public LyricsAdapter.LyricsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.line_lyric, parent, false);

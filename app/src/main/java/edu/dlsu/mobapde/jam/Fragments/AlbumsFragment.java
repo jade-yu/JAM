@@ -14,7 +14,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,6 @@ public class AlbumsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("onCreateView", "onCreateView: started");
         return inflater.inflate(R.layout.rv_main, container, false);
     }
 
@@ -53,8 +51,6 @@ public class AlbumsFragment extends Fragment {
 
         ArrayList<Album> albums = getAlbums();
 
-        Log.d("albumsize", albums.size() + "");
-
         AlbumAdapter albumAdapter = new AlbumAdapter(albums);
         //rvAlbums.setAdapter(albumAdapter);
         rvAlbums.swapAdapter(albumAdapter, false);
@@ -62,7 +58,6 @@ public class AlbumsFragment extends Fragment {
         albumAdapter.setOnItemClickListener(new AlbumAdapter.onItemClickListener() {
             @Override
             public void onItemClick(Album a) {
-                Log.d("clickedalbum", a.getTitle());
                 final ArrayList<Track> tracks = getTracks(a);
                 final ArrayList<String> albums = getAlbumArts(tracks);
 
@@ -122,9 +117,7 @@ public class AlbumsFragment extends Fragment {
                     String title = musicCursor.getString(titleColumn);
                     String artist = musicCursor.getString(artistColumn);
                     String trackArt = musicCursor.getString(albumartColumn);
-                   // Bitmap bm = BitmapFactory.decodeFile(songArt);
 
-//                    Log.d("title", title);
                     albums.add(new Album(title, artist, albumid, trackArt));
                 } while (musicCursor.moveToNext());
             }
@@ -164,8 +157,6 @@ public class AlbumsFragment extends Fragment {
                     String artist = musicCursor.getString(artistColumn);
                     int album = musicCursor.getInt(albumColumn);
                     int duration = musicCursor.getInt(durationColumn);
-
-//                    Log.d("title", title);
 
                     tracks.add(new Track(id, title, artist, album, duration));
                 } while (musicCursor.moveToNext());

@@ -82,7 +82,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         //player.reset();
 
         Track track = tracks.get(currentPosition);
-        Log.d("playTrack position", "" + currentPosition);
         Uri trackUri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, track.getId());
 
         active = true;
@@ -91,7 +90,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             player.reset();
 
             player.setDataSource(getApplicationContext(), trackUri);
-            Log.d("playTrack: ", track.getTitle());
         } catch(Exception e) {
             Log.e("MUSIC SERVICE", "Error setting data source", e);
         }
@@ -154,23 +152,17 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d("MusicService", "onBind");
         return musicBind;
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        //player.reset();
-        //player.release();
-        //active = false;
-        Log.d("MusicService", "onUnbind");
         return false;
     }
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         currentPosition++;
-        Log.d("currentPosition", "changed to " + currentPosition);
         playTrack();
     }
 

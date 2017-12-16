@@ -63,10 +63,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
         holder.tvAlbums.setText(albumtext);
 
         if (icons.get(position) == null) {
-            Log.d("onBindViewHolder", currentArtist.getArtist() + " : null album");
             holder.ivIcon.setImageResource(R.drawable.noalbums);
         } else {
-            Log.d("onBindViewHolder", currentArtist.getArtist() + " : " + icons.get(position));
             Drawable img = Drawable.createFromPath(icons.get(position));
             holder.ivIcon.setImageDrawable(img);
         }

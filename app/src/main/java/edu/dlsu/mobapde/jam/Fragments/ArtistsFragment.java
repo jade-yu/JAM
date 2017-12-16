@@ -39,7 +39,6 @@ public class ArtistsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("onCreateView", "onCreateView: started");
         return inflater.inflate(R.layout.rv_main, container, false);
     }
 
@@ -50,15 +49,12 @@ public class ArtistsFragment extends Fragment {
         ArrayList<Artist> artists = getArtists();
         ArrayList<String> icons = getArtistIcons(artists);
 
-        Log.d("artistsize", artists.size() + "");
-
         ArtistAdapter artistAdapter = new ArtistAdapter(artists, icons);
         rvArtists.swapAdapter(artistAdapter, false);
 
         artistAdapter.setOnItemClickListener(new ArtistAdapter.onItemClickListener() {
             @Override
             public void onItemClick(Artist a) {
-                Log.d("clickedartist", a.getArtist());
                 final ArrayList<Track> tracks = getTracks(a);
                 final ArrayList<String> albums = getAlbumArts(tracks);
 
@@ -115,8 +111,6 @@ public class ArtistsFragment extends Fragment {
                     int numalbums = musicCursor.getInt(albumsColumn);
                     int numtracks = musicCursor.getInt(tracksColumn);
 
-//                    Log.d("Artist", artist);
-
                     artists.add(new Artist(id, artist, numalbums, numtracks));
                 } while (musicCursor.moveToNext());
             }
@@ -154,8 +148,6 @@ public class ArtistsFragment extends Fragment {
                     String artist = musicCursor.getString(artistColumn);
                     int album = musicCursor.getInt(albumColumn);
                     int duration = musicCursor.getInt(durationColumn);
-
-//                    Log.d("title", title);
 
                     tracks.add(new Track(id, title, artist, album, duration));
                 } while (musicCursor.moveToNext());
@@ -201,7 +193,6 @@ public class ArtistsFragment extends Fragment {
                 boolean flag = false;
 
                 while(albumCursor.moveToNext() && !flag) {
-                    Log.d("getArtistIcons", a.getArtist() + " (MS: " + albumCursor.getString(albumartColumn) + ")");
                     albumArts.add(albumCursor.getString(albumartColumn));
                     flag = true;
                 }

@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,16 +53,12 @@ public class TracksFragment extends Fragment {
         final ArrayList<Track> tracks = getTracks();
         final ArrayList<String> albums = getAlbumArts(tracks);
 
-        Log.d("tracksize", tracks.size() + "");
-
         trackAdapter = new TrackAdapter(tracks, albums);
         rvTracks.swapAdapter(trackAdapter, false);
 
         trackAdapter.setOnItemClickListener(new TrackAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
-//                Log.d("clickedtitle", t.getTitle());
-//                Log.d("onItemClick", position + "");
                 Track t = tracks.get(position);
                 ((MainActivity) getActivity()).setCurrentTrack(t);
 //                ((MainActivity) getActivity()).setAlbum(a);
@@ -98,8 +93,6 @@ public class TracksFragment extends Fragment {
             Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
             Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
 
-//            Log.d("cursorsize", musicCursor.getCount() + "");
-
             if(musicCursor != null && musicCursor.moveToFirst()){
                 //get columns
                 int titleColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
@@ -116,7 +109,6 @@ public class TracksFragment extends Fragment {
                     int album = musicCursor.getInt(albumColumn);
                     int duration = musicCursor.getInt(durationColumn);
 
-//                    Log.d("title", title);
                     tracks.add(new Track(id, title, artist, album, duration));
                 } while (musicCursor.moveToNext());
             }
