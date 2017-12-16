@@ -106,41 +106,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public long addLyrics(Lyrics lyrics){
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Lyrics.COLUMN_LYRICS, lyrics.getLyric());
-        contentValues.put(Lyrics.COLUMN_TRACKID, lyrics.getTrackID());
-        contentValues.put(Lyrics.COLUMN_TIMESTART, lyrics.getTimestart());
-
-        long id = db.insert(Lyrics.TABLE_NAME, null, contentValues);
-        db.close();
-        return id;
-    }
-
-    public boolean addLyrics(String data, long trackid){
-        SQLiteDatabase db = getWritableDatabase();
-
-        String[] lyrics = data.split("\\n");
-
-        //TODO put lyrics in DB
-        for (String s: lyrics) {
-            if(!s.trim().equals("")) {
-                Log.d("DatabaseHelper", "addLyrics: " + s);
-
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(Lyrics.COLUMN_LYRICS, s);
-                contentValues.put(Lyrics.COLUMN_TRACKID, trackid);
-                contentValues.put(Lyrics.COLUMN_TIMESTART, -1);
-
-                long id = db.insert(Lyrics.TABLE_NAME, null, contentValues);
-            }
-        }
-
-        db.close();
-        return true;
-    }
-
     public long addPlaylist(Playlist playlist){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -287,6 +252,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return lyrics;
+    }
+
+    public long addLyrics(Lyrics lyrics){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Lyrics.COLUMN_LYRICS, lyrics.getLyric());
+        contentValues.put(Lyrics.COLUMN_TRACKID, lyrics.getTrackID());
+        contentValues.put(Lyrics.COLUMN_TIMESTART, lyrics.getTimestart());
+
+        long id = db.insert(Lyrics.TABLE_NAME, null, contentValues);
+        db.close();
+        return id;
+    }
+
+    public boolean addLyrics(String data, long trackid){
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] lyrics = data.split("\\n");
+
+        for (String s: lyrics) {
+            if(!s.trim().equals("")) {
+                Log.d("DatabaseHelper", "addLyrics: " + s);
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(Lyrics.COLUMN_LYRICS, s);
+                contentValues.put(Lyrics.COLUMN_TRACKID, trackid);
+                contentValues.put(Lyrics.COLUMN_TIMESTART, -1);
+
+                long id = db.insert(Lyrics.TABLE_NAME, null, contentValues);
+            }
+        }
+
+        db.close();
+        return true;
     }
 
     public Playlist getPlaylist(long id) {
