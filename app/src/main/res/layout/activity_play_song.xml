@@ -33,16 +33,6 @@
             android:visibility="invisible"
             />
 
-
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:id="@+id/iv_search"
-            android:layout_marginTop="13dp"
-            android:src="@drawable/search"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"/>
-
     </RelativeLayout>
 
     <LinearLayout
