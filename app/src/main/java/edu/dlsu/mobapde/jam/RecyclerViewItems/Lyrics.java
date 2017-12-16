@@ -16,7 +16,7 @@ public class Lyrics {
     public static final String COLUMN_TIMESTART = "timestart";
 
     private String lyric;
-    private int trackID;
+    private long trackID;
     private long id;
     private String timestart;
 
@@ -36,11 +36,11 @@ public class Lyrics {
         this.id = id;
     }
 
-    public int getTrackID() {
+    public long getTrackID() {
         return trackID;
     }
 
-    public void setTrackID(int trackID) {
+    public void setTrackID(long trackID) {
         this.trackID = trackID;
     }
 

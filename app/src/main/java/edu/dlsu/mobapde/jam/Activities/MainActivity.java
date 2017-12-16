@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), PlaySongActivity.class);
 
-                startActivity(i);
+                startActivityForResult(i, REQUEST_CODE_PLAY_SONG);
             }
         };
 
@@ -316,11 +316,11 @@ public class MainActivity extends AppCompatActivity {
     //TODO fix onresume
     @Override
     protected void onResume() {
-        super.onResume();
-
         if(MusicService.isActive()) {
             bindMusicService();
         }
+
+        super.onResume();
     }
 
     @Override

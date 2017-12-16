@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import edu.dlsu.mobapde.jam.RecyclerViewItems.Lyrics;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.Playlist;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.Track;
@@ -19,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TRACKID = "trackid";
     public static final String COLUMN_PLAYLISTID = "playlistid";
     public static final String COLUMN_LYRICID = "lyricid";
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, SCHEMA, null, VERSION);
@@ -42,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Lyrics.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Lyrics.COLUMN_LYRICS + " TEXT,"
                 + Lyrics.COLUMN_TRACKID + " INTEGER,"
-                + Lyrics.COLUMN_TIMESTART + "TIME"
+                + Lyrics.COLUMN_TIMESTART + " INTEGER"
                 + ");";
 
         db.execSQL(lyrics);
@@ -116,22 +118,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public boolean addLyrics(String data){
+    public boolean addLyrics(String data, long trackid){
         SQLiteDatabase db = getWritableDatabase();
 
-        String[] lyrics = data.split("\\s+");
+        String[] lyrics = data.split("\\n");
 
-        for (String s: lyrics) {
-            Log.d("DatabaseHelper", "addLyrics: " + s);
-        }
         //TODO put lyrics in DB
-        /*
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Lyrics.COLUMN_LYRICS, lyrics.getLyric());
-        contentValues.put(Lyrics.COLUMN_TRACKID, lyrics.getTrackID());
-        contentValues.put(Lyrics.COLUMN_TIMESTART, lyrics.getTimestart());
+        for (String s: lyrics) {
+            if(!s.trim().equals("")) {
+                Log.d("DatabaseHelper", "addLyrics: " + s);
 
-        long id = db.insert(Lyrics.TABLE_NAME, null, contentValues);*/
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(Lyrics.COLUMN_LYRICS, s);
+                contentValues.put(Lyrics.COLUMN_TRACKID, trackid);
+                contentValues.put(Lyrics.COLUMN_TIMESTART, -1);
+
+                long id = db.insert(Lyrics.TABLE_NAME, null, contentValues);
+            }
+        }
+
         db.close();
         return true;
     }
@@ -244,7 +249,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()){
             l = new Lyrics();
             l.setLyric(c.getString(c.getColumnIndex(Lyrics.COLUMN_LYRICS)));
-            l.setTrackID(c.getInt(c.getColumnIndex(Lyrics.COLUMN_ID)));
+            l.setTrackID(c.getInt(c.getColumnIndex(Lyrics.COLUMN_TRACKID)));
             l.setTimestart(c.getString(c.getColumnIndex(Lyrics.COLUMN_TIMESTART)));
             l.setId(id);
         }
@@ -253,6 +258,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return l;
+    }
+
+    public ArrayList<Lyrics> getTrackLyrics(long trackid){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.query(Lyrics.TABLE_NAME,
+                null,
+                Lyrics.COLUMN_TRACKID + "=?",
+                new String[]{trackid+""},
+                null,
+                null,
+                Lyrics.COLUMN_TIMESTART + " ASC");
+
+        ArrayList<Lyrics> lyrics = new ArrayList<>();
+
+        while(c.moveToNext()) {
+            Lyrics l = new Lyrics();
+
+            l.setLyric(c.getString(c.getColumnIndex(Lyrics.COLUMN_LYRICS)));
+            l.setId(c.getInt(c.getColumnIndex(Lyrics.COLUMN_ID)));
+            l.setTimestart(c.getString(c.getColumnIndex(Lyrics.COLUMN_TIMESTART)));
+            l.setTrackID(trackid);
+
+            lyrics.add(l);
+        }
+
+        c.close();
+        db.close();
+
+        return lyrics;
     }
 
     public Playlist getPlaylist(long id) {

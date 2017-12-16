@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.dlsu.mobapde.jam.Database.DatabaseHelper;
 import edu.dlsu.mobapde.jam.R;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.Lyrics;
 import edu.dlsu.mobapde.jam.RecyclerViewItems.LyricsAdapter;
@@ -309,23 +310,22 @@ public class PlaySongActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE_GET_LYRICS && resultCode == RESULT_OK) {
             Log.d("PlaySongActivity", "onActivityResult: ok");
-            //TODO get lyrics from db
-            //setCurrentTrack(currentTrack);
-            //TODO display lyrics
+            DatabaseHelper db = new DatabaseHelper(getBaseContext());
+            ArrayList<Lyrics> lyrics = db.getTrackLyrics(currentTrack.getId());
 
             btnAdd.setVisibility(View.GONE);
 
-            String[] inputLyrics = data.getStringExtra("lyrics").split("//n");
+//            String[] inputLyrics = data.getStringExtra("lyrics").split("//n");
 
-            Log.d("check lyrics", "Vlaalue" + inputLyrics[0]);
+//            Log.d("check lyrics", "Vlaalue" + inputLyrics[0]);
 
-            for (int i = 0; i < inputLyrics.length; i++) {
-                Lyrics line = new Lyrics();
-                line.setLyric(inputLyrics[i]);
-                lyricsList.add(line);
-            }
+//            for (int i = 0; i < inputLyrics.length; i++) {
+//                Lyrics line = new Lyrics();
+//                line.setLyric(inputLyrics[i]);
+//                lyricsList.add(line);
+//            }
 
-            LyricsAdapter lyricsAdapter = new LyricsAdapter(lyricsList);
+            LyricsAdapter lyricsAdapter = new LyricsAdapter(lyrics);
 
             rvLyrics.setAdapter(lyricsAdapter);
             rvLyrics.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));

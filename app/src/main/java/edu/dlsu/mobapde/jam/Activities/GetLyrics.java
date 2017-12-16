@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import edu.dlsu.mobapde.jam.Database.DatabaseHelper;
 import edu.dlsu.mobapde.jam.R;
+import edu.dlsu.mobapde.jam.RecyclerViewItems.Track;
 
 public class GetLyrics extends AppCompatActivity {
 
@@ -28,13 +29,15 @@ public class GetLyrics extends AppCompatActivity {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Track t = getIntent().getParcelableExtra("currentTrack");
+
                 Intent i = new Intent();
                 String lyrics = etGetLyrics.getText().toString();
-                i.putExtra("lyrics", lyrics);
+//                i.putExtra("lyrics", lyrics);
 //                Log.d("lyricss", "Valure" + lyrics);
 
                 DatabaseHelper db = new DatabaseHelper(getBaseContext());
-                db.addLyrics(lyrics);
+                db.addLyrics(lyrics, t.getId());
 
                 setResult(RESULT_OK, i);
 //                Log.d("GetLyrics", "lyrics ok");
