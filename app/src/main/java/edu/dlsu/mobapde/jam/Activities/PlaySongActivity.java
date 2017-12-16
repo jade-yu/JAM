@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -45,6 +46,8 @@ public class PlaySongActivity extends AppCompatActivity {
     ImageView btnGoBack;
 
     RecyclerView rvLyrics;
+
+    LinearLayout lyricsHolder;
 
     TextView tvTracksong, tvTrackartist, tvTrackstart, tvTrackend;
     ImageView ivAlbumshow;
@@ -75,6 +78,8 @@ public class PlaySongActivity extends AppCompatActivity {
         btnGoBack = findViewById(R.id.btn_goback);
 
         rvLyrics = findViewById(R.id.rv_lyrics);
+
+        lyricsHolder = findViewById(R.id.lyrics_holder);
 
         tvTracksong = findViewById(R.id.tv_tracksong);
         tvTrackartist = findViewById(R.id.tv_trackartist);
@@ -300,9 +305,12 @@ public class PlaySongActivity extends AppCompatActivity {
         if(lyrics.size() > 0) {
             btnAdd.setVisibility(View.GONE);
             ibDown.setVisibility(View.VISIBLE);
+            lyricsHolder.setVisibility(View.VISIBLE);
+
         } else {
             btnAdd.setVisibility(View.VISIBLE);
             ibDown.setVisibility(View.GONE);
+            lyricsHolder.setVisibility(View.GONE);
         }
 
         LyricsAdapter lyricsAdapter = new LyricsAdapter(lyrics);
