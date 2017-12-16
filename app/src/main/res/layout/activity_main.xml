@@ -59,9 +59,11 @@
             android:layout_weight="0"
             android:background="#FF384E77"
             app:tabIndicatorColor="#ead48a"
-            app:tabMode="scrollable"
+            app:tabMode="fixed"
             app:tabSelectedTextColor="#FFEAD48A"
-            app:tabTextColor="#ffffff" />
+            app:tabTextColor="#ffffff"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"/>
 
 
         <FrameLayout
