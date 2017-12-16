@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     int currentPosition;
 
     private MusicService musicService;
+    private ServiceConnection musicConnection;
     private Intent playIntent;
     private boolean musicBound = false;
 
@@ -285,8 +286,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void bindMusicService() {
-        ServiceConnection musicConnection = new ServiceConnection() {
-
+        musicConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
@@ -335,6 +335,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
