@@ -135,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ivSearch.setVisibility(View.GONE);
+
         View.OnClickListener oclPlaySong = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,12 +255,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
 //                    case PLAYLISTS_TAB:
 //                        Log.d("onTabSelected", "PLAYLISTS");
-//                        //TODO playlists fragment
+//                        TODO playlists fragment
 //                        fragment = new TracksFragment();
 //                        break;
 //                    case FAVES_TAB:
 //                        Log.d("onTabSelected", "FAVES");
-//                        //TODO faves fragment
+//                        TODO faves fragment
 //                        fragment = new TracksFragment();
 //                        break;
                 }
