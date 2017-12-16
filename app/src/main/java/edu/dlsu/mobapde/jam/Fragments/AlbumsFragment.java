@@ -3,7 +3,6 @@ package edu.dlsu.mobapde.jam.Fragments;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -65,8 +64,9 @@ public class AlbumsFragment extends Fragment {
             public void onItemClick(Album a) {
                 Log.d("clickedalbum", a.getTitle());
                 final ArrayList<Track> tracks = getTracks(a);
+                final ArrayList<String> albums = getAlbumArts(tracks);
 
-                TrackAdapter trackAdapter = new TrackAdapter(tracks);
+                TrackAdapter trackAdapter = new TrackAdapter(tracks, albums);
                 trackAdapter.setOnItemClickListener(new TrackAdapter.onItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
@@ -174,5 +174,26 @@ public class AlbumsFragment extends Fragment {
 
         return tracks;
 
+    }
+
+    public ArrayList<String> getAlbumArts(ArrayList<Track> tracks) {
+        ContentResolver musicResolver = getActivity().getContentResolver();
+        Uri albumUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+
+        ArrayList<String> albumArts = new ArrayList<>();
+
+        for(Track t : tracks) {
+            Cursor albumCursor = musicResolver.query(albumUri, null, MediaStore.Audio.Albums._ID + "=?", new String[]{t.getAlbum() + ""}, null);
+
+            if (albumCursor != null && albumCursor.moveToFirst()) {
+                int albumartColumn = albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+                albumArts.add(albumCursor.getString(albumartColumn));
+            } else {
+                albumArts.add(null);
+            }
+
+        }
+
+        return albumArts;
     }
 }

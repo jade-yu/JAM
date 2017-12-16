@@ -4,11 +4,16 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,7 +72,14 @@ public class MainActivity extends AppCompatActivity {
         currentTrack = track;
 
         if(currentTrack.getAlbum() != -1) {
-            //ivMainAlbum.setImageResource(currentTrack.getAlbum());
+            String album = getAlbumArt(currentTrack);
+
+            if (album == null) {
+                ivMainAlbum.setImageResource(R.drawable.noalbums);
+            } else {
+                Drawable img = Drawable.createFromPath(album);
+                ivMainAlbum.setImageDrawable(img);
+            }
         } else {
             ivMainAlbum.setImageResource(R.drawable.noalbums);
         }
@@ -211,8 +223,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tracksTab);
         tabLayout.addTab(artistsTab);
         tabLayout.addTab(albumsTab);
-        tabLayout.addTab(playlistsTab);
-        tabLayout.addTab(favesTab);
+//        tabLayout.addTab(playlistsTab);
+//        tabLayout.addTab(favesTab);
 
         Fragment fragment = new TracksFragment();
 
@@ -239,16 +251,16 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("onTabSelected", "ALBUMS");
                         fragment = new AlbumsFragment();
                         break;
-                    case PLAYLISTS_TAB:
-                        Log.d("onTabSelected", "PLAYLISTS");
-                        //TODO playlists fragment
-                        fragment = new TracksFragment();
-                        break;
-                    case FAVES_TAB:
-                        Log.d("onTabSelected", "FAVES");
-                        //TODO faves fragment
-                        fragment = new TracksFragment();
-                        break;
+//                    case PLAYLISTS_TAB:
+//                        Log.d("onTabSelected", "PLAYLISTS");
+//                        //TODO playlists fragment
+//                        fragment = new TracksFragment();
+//                        break;
+//                    case FAVES_TAB:
+//                        Log.d("onTabSelected", "FAVES");
+//                        //TODO faves fragment
+//                        fragment = new TracksFragment();
+//                        break;
                 }
 
                 FragmentManager fm = getFragmentManager();
@@ -327,5 +339,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         active = false;
         super.onDestroy();
+    }
+
+    public String getAlbumArt(Track t) {
+        ContentResolver musicResolver = getContentResolver();
+        Uri albumUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+
+        String album = null;
+
+        Cursor albumCursor = musicResolver.query(albumUri, null, MediaStore.Audio.Albums._ID + "=?", new String[]{t.getAlbum() + ""}, null);
+
+        if (albumCursor != null && albumCursor.moveToFirst()) {
+            int albumartColumn = albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+            album = albumCursor.getString(albumartColumn);
+        }
+
+        return album;
     }
 }

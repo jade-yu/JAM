@@ -52,10 +52,11 @@ public class TracksFragment extends Fragment {
         rvTracks = (RecyclerView) view.findViewById(R.id.rv_main);
 
         final ArrayList<Track> tracks = getTracks();
+        final ArrayList<String> albums = getAlbumArts(tracks);
 
         Log.d("tracksize", tracks.size() + "");
 
-        trackAdapter = new TrackAdapter(tracks);
+        trackAdapter = new TrackAdapter(tracks, albums);
         rvTracks.swapAdapter(trackAdapter, false);
 
         trackAdapter.setOnItemClickListener(new TrackAdapter.onItemClickListener() {
@@ -65,6 +66,7 @@ public class TracksFragment extends Fragment {
 //                Log.d("onItemClick", position + "");
                 Track t = tracks.get(position);
                 ((MainActivity) getActivity()).setCurrentTrack(t);
+//                ((MainActivity) getActivity()).setAlbum(a);
                 ((MainActivity) getActivity()).setTrackList(tracks);
                 ((MainActivity) getActivity()).setCurrentPosition(position);
 
@@ -115,7 +117,6 @@ public class TracksFragment extends Fragment {
                     int duration = musicCursor.getInt(durationColumn);
 
 //                    Log.d("title", title);
-
                     tracks.add(new Track(id, title, artist, album, duration));
                 } while (musicCursor.moveToNext());
             }
@@ -128,6 +129,27 @@ public class TracksFragment extends Fragment {
         }
 
         return tracks;
+    }
+
+    public ArrayList<String> getAlbumArts(ArrayList<Track> tracks) {
+        ContentResolver musicResolver = getActivity().getContentResolver();
+        Uri albumUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+
+        ArrayList<String> albumArts = new ArrayList<>();
+
+        for(Track t : tracks) {
+            Cursor albumCursor = musicResolver.query(albumUri, null, MediaStore.Audio.Albums._ID + "=?", new String[]{t.getAlbum() + ""}, null);
+
+            if (albumCursor != null && albumCursor.moveToFirst()) {
+                int albumartColumn = albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+                albumArts.add(albumCursor.getString(albumartColumn));
+            } else {
+                albumArts.add(null);
+            }
+
+        }
+
+        return albumArts;
     }
 
 }

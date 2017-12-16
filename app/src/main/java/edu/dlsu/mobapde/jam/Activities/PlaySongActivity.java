@@ -2,14 +2,18 @@ package edu.dlsu.mobapde.jam.Activities;
 
 import android.Manifest;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -136,7 +140,6 @@ public class PlaySongActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     @Override
@@ -181,8 +184,10 @@ public class PlaySongActivity extends AppCompatActivity {
                 }
             } else {
 //                Log.d("position", "-1");
-                currentTrack = musicService.getCurrentTrack();
-                trackList = musicService.getTrackList();
+                if(MusicService.isActive()) {
+                    currentTrack = musicService.getCurrentTrack();
+                    trackList = musicService.getTrackList();
+                }
             }
 
             musicBound = true;
@@ -202,8 +207,22 @@ public class PlaySongActivity extends AppCompatActivity {
         tvTrackartist.setText(currentTrack.getArtist());
 //        ivAlbumshow.setImageResource();
 
-        //TODO find album art from track
-        //TODO show album art in playSong
+        if(currentTrack.getAlbum() != -1) {
+            String album = getAlbumArt(currentTrack);
+
+            if (album == null) {
+                Log.d("onBindViewHolder", currentTrack.getTitle() + " : null album");
+                ivAlbumshow.setImageResource(R.drawable.noalbums);
+            } else {
+                Log.d("onBindViewHolder", currentTrack.getTitle() + " : " + album);
+                Drawable img = Drawable.createFromPath(album);
+                ivAlbumshow.setImageDrawable(img);
+            }
+        } else {
+            Log.d("onBindViewHolder", currentTrack.getTitle() + " : no album");
+            ivAlbumshow.setImageResource(R.drawable.noalbums);
+        }
+
 //        if(currentTrack.getAlbum().getId() != -1) {
 //            if (currentAlbum.getAlbumart() == null) {
 //
@@ -358,6 +377,22 @@ public class PlaySongActivity extends AppCompatActivity {
 
     public void songFinished() {
         playSong();
+    }
+
+    public String getAlbumArt(Track t) {
+        ContentResolver musicResolver = getContentResolver();
+        Uri albumUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+
+        String album = null;
+
+        Cursor albumCursor = musicResolver.query(albumUri, null, MediaStore.Audio.Albums._ID + "=?", new String[]{t.getAlbum() + ""}, null);
+
+        if (albumCursor != null && albumCursor.moveToFirst()) {
+            int albumartColumn = albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+            album = albumCursor.getString(albumartColumn);
+        }
+
+        return album;
     }
 
 }

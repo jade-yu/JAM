@@ -18,10 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import edu.dlsu.mobapde.jam.Activities.MainActivity;
 import edu.dlsu.mobapde.jam.Activities.PlaySongActivity;
@@ -51,10 +48,11 @@ public class ArtistsFragment extends Fragment {
         rvArtists = (RecyclerView) view.findViewById(R.id.rv_main);
 
         ArrayList<Artist> artists = getArtists();
+        ArrayList<String> icons = getArtistIcons(artists);
 
         Log.d("artistsize", artists.size() + "");
 
-        ArtistAdapter artistAdapter = new ArtistAdapter(artists);
+        ArtistAdapter artistAdapter = new ArtistAdapter(artists, icons);
         rvArtists.swapAdapter(artistAdapter, false);
 
         artistAdapter.setOnItemClickListener(new ArtistAdapter.onItemClickListener() {
@@ -62,8 +60,9 @@ public class ArtistsFragment extends Fragment {
             public void onItemClick(Artist a) {
                 Log.d("clickedartist", a.getArtist());
                 final ArrayList<Track> tracks = getTracks(a);
+                final ArrayList<String> albums = getAlbumArts(tracks);
 
-                TrackAdapter trackAdapter = new TrackAdapter(tracks);
+                TrackAdapter trackAdapter = new TrackAdapter(tracks, albums);
                 trackAdapter.setOnItemClickListener(new TrackAdapter.onItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
@@ -165,6 +164,57 @@ public class ArtistsFragment extends Fragment {
 
         return tracks;
 
+    }
+
+    public ArrayList<String> getAlbumArts(ArrayList<Track> tracks) {
+        ContentResolver musicResolver = getActivity().getContentResolver();
+        Uri albumUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+
+        ArrayList<String> albumArts = new ArrayList<>();
+
+        for(Track t : tracks) {
+            Cursor albumCursor = musicResolver.query(albumUri, null, MediaStore.Audio.Albums._ID + "=?", new String[]{t.getAlbum() + ""}, null);
+
+            if (albumCursor != null && albumCursor.moveToFirst()) {
+                int albumartColumn = albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+                albumArts.add(albumCursor.getString(albumartColumn));
+            } else {
+                albumArts.add(null);
+            }
+
+        }
+
+        return albumArts;
+    }
+
+    public ArrayList<String> getArtistIcons(ArrayList<Artist> artists) {
+        ContentResolver musicResolver = getActivity().getContentResolver();
+        Uri albumUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+
+        ArrayList<String> albumArts = new ArrayList<>();
+
+        for(Artist a : artists) {
+            Cursor albumCursor = musicResolver.query(albumUri, null, MediaStore.Audio.Albums.ARTIST + "=?", new String[]{a.getArtist()}, null);
+
+            if (albumCursor.moveToFirst()) {
+                int albumartColumn = albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+                boolean flag = false;
+
+                while(albumCursor.moveToNext() && !flag) {
+                    Log.d("getArtistIcons", a.getArtist() + " (MS: " + albumCursor.getString(albumartColumn) + ")");
+                    albumArts.add(albumCursor.getString(albumartColumn));
+                    flag = true;
+                }
+
+                if(!flag)
+                    albumArts.add(null);
+            } else {
+                albumArts.add(null);
+            }
+
+        }
+
+        return albumArts;
     }
     
 }

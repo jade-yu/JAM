@@ -1,6 +1,6 @@
 package edu.dlsu.mobapde.jam.RecyclerViewItems;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +15,11 @@ import edu.dlsu.mobapde.jam.R;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder> {
 
     ArrayList<Artist> data;
+    ArrayList<String> icons;
 
-    public ArtistAdapter(ArrayList<Artist> data) {
+    public ArtistAdapter(ArrayList<Artist> data, ArrayList<String> icons) {
         this.data = data;
+        this.icons = icons;
     }
 
     @Override
@@ -60,8 +62,13 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
 
         holder.tvAlbums.setText(albumtext);
 
-        if(currentArtist.getIcon() != -1) {
-            holder.ivIcon.setImageResource(currentArtist.getIcon());
+        if (icons.get(position) == null) {
+            Log.d("onBindViewHolder", currentArtist.getArtist() + " : null album");
+            holder.ivIcon.setImageResource(R.drawable.noalbums);
+        } else {
+            Log.d("onBindViewHolder", currentArtist.getArtist() + " : " + icons.get(position));
+            Drawable img = Drawable.createFromPath(icons.get(position));
+            holder.ivIcon.setImageDrawable(img);
         }
 
         holder.itemView.setTag(currentArtist);

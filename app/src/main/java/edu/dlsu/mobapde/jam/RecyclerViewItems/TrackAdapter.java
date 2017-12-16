@@ -1,5 +1,7 @@
 package edu.dlsu.mobapde.jam.RecyclerViewItems;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,11 @@ import edu.dlsu.mobapde.jam.R;
 public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHolder> {
 
     ArrayList<Track> data;
+    ArrayList<String> albums;
 
-    public TrackAdapter(ArrayList<Track> data) {
+    public TrackAdapter(ArrayList<Track> data, ArrayList<String> albumArts) {
         this.data = data;
+        this.albums = albumArts;
     }
 
     @Override
@@ -49,7 +53,12 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
         holder.tvSong.setText(currentTrack.getTitle());
         holder.tvArtist.setText(currentTrack.getArtist());
         if(currentTrack.getAlbum() != -1) {
-            //holder.ivTrack.setImageResource(currentTrack.getAlbum());
+            if (albums.get(position) == null) {
+                holder.ivTrack.setImageResource(R.drawable.noalbums);
+            } else {
+                Drawable img = Drawable.createFromPath(albums.get(position));
+                holder.ivTrack.setImageDrawable(img);
+            }
         } else {
             holder.ivTrack.setImageResource(R.drawable.noalbums);
         }
