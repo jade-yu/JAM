@@ -1,4 +1,5 @@
 package edu.dlsu.mobapde.jam.RecyclerViewItems;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -65,8 +66,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
         if (icons.get(position) == null) {
             holder.ivIcon.setImageResource(R.drawable.noalbums);
         } else {
-            Drawable img = Drawable.createFromPath(icons.get(position));
-            holder.ivIcon.setImageDrawable(img);
+            holder.ivIcon.setImageBitmap(BitmapFactory.decodeFile(icons.get(position)));
         }
 
         holder.itemView.setTag(currentArtist);

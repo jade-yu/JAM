@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -35,26 +36,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         super.onCreate();
 
         initializeMusicPlayer();
-    }
-
-    public ArrayList<Track> getTrackList() {
-        return tracks;
-    }
-
-    public Track getCurrentTrack() {
-        return tracks.get(currentPosition);
-    }
-
-    public void setTracks(ArrayList<Track> tracks) {
-        this.tracks = tracks;
-    }
-
-    public void setCurrentPosition(int index){
-        currentPosition = index;
-    }
-
-    public MediaPlayer getMediaPlayer() {
-        return player;
     }
 
     public void initializeMusicPlayer() {
@@ -87,8 +68,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         active = true;
 
         try {
-            player.reset();
-
             player.setDataSource(getApplicationContext(), trackUri);
         } catch(Exception e) {
             Log.e("MUSIC SERVICE", "Error setting data source", e);
@@ -134,7 +113,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public void startNotification() {
         Intent notIntent = new Intent(this, PlaySongActivity.class);
         notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendInt = PendingIntent.getActivity(this, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendInt = PendingIntent.getActivity(this, 9, notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder builder = new Notification.Builder(this);
 
@@ -180,6 +159,26 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public void onDestroy() {
         active = false;
         stopForeground(true);
+    }
+
+    public ArrayList<Track> getTrackList() {
+        return tracks;
+    }
+
+    public Track getCurrentTrack() {
+        return tracks.get(currentPosition);
+    }
+
+    public void setTracks(ArrayList<Track> tracks) {
+        this.tracks = tracks;
+    }
+
+    public void setCurrentPosition(int index){
+        currentPosition = index;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return player;
     }
 
     public static boolean isActive() {

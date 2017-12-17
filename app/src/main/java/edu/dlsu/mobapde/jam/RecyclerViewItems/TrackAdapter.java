@@ -1,4 +1,5 @@
 package edu.dlsu.mobapde.jam.RecyclerViewItems;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,8 +56,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
             if (albums.get(position) == null) {
                 holder.ivTrack.setImageResource(R.drawable.noalbums);
             } else {
-                Drawable img = Drawable.createFromPath(albums.get(position));
-                holder.ivTrack.setImageDrawable(img);
+                holder.ivTrack.setImageBitmap(BitmapFactory.decodeFile(albums.get(position)));
             }
         } else {
             holder.ivTrack.setImageResource(R.drawable.noalbums);

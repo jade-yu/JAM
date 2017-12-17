@@ -1,4 +1,5 @@
 package edu.dlsu.mobapde.jam.RecyclerViewItems;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,12 +51,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         holder.tvArtist.setText(currentAlbum.getArtist());
         if(currentAlbum.getId() != -1) {
             if (currentAlbum.getAlbumart() == null) {
-
                 holder.ivIcon.setImageResource(R.drawable.noalbums);
-
             } else {
-                Drawable img = Drawable.createFromPath(currentAlbum.getAlbumart());
-                holder.ivIcon.setImageDrawable(img);
+                holder.ivIcon.setImageBitmap(BitmapFactory.decodeFile(currentAlbum.getAlbumart()));
             }
         }
 
