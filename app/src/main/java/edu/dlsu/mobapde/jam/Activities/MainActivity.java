@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int PLAYLISTS_TAB = 3;
     public static final int FAVES_TAB = 4;
 
-    public static final int REQUEST_CODE_PLAY_SONG = 2;
+    public static final int REQUEST_CODE_PLAY_SONG = 1;
 
     EditText etSearch;
     ImageView ivSearch;
@@ -334,6 +334,15 @@ public class MainActivity extends AppCompatActivity {
 
         super.onResume();
     }
+
+//    @Override
+//    protected void onStop() {
+//        if(musicBound) {
+//            unbindService(musicConnection);
+//        }
+//
+//        super.onStop();
+//    }
 
     @Override
     protected void onDestroy() {

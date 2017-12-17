@@ -41,7 +41,7 @@ import edu.dlsu.mobapde.jam.Service.MusicService.MusicBinder;
 
 public class PlaySongActivity extends AppCompatActivity {
 
-    public static final int REQUEST_CODE_GET_LYRICS = 3;
+    public static final int REQUEST_CODE_GET_LYRICS = 1;
 
     ImageView btnGoBack;
 
