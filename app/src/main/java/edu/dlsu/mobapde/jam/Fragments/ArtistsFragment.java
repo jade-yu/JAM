@@ -114,6 +114,8 @@ public class ArtistsFragment extends Fragment {
                     artists.add(new Artist(id, artist, numalbums, numtracks));
                 } while (musicCursor.moveToNext());
             }
+
+            musicCursor.close();
         }
 
         return artists;
@@ -152,6 +154,8 @@ public class ArtistsFragment extends Fragment {
                     tracks.add(new Track(id, title, artist, album, duration));
                 } while (musicCursor.moveToNext());
             }
+
+            musicCursor.close();
         }
 
         return tracks;
@@ -174,6 +178,7 @@ public class ArtistsFragment extends Fragment {
                 albumArts.add(null);
             }
 
+            albumCursor.close();
         }
 
         return albumArts;
@@ -203,6 +208,7 @@ public class ArtistsFragment extends Fragment {
                 albumArts.add(null);
             }
 
+            albumCursor.close();
         }
 
         return albumArts;

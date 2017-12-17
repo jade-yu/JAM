@@ -17,7 +17,6 @@ import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -189,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             llFooter.setVisibility(View.GONE);
         }
+
+
     }
 
     @Override
@@ -336,6 +337,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        if(musicBound) {
+            unbindService(musicConnection);
+        }
+
         super.onStop();
     }
 
@@ -358,6 +363,7 @@ public class MainActivity extends AppCompatActivity {
             album = albumCursor.getString(albumartColumn);
         }
 
+        albumCursor.close();
         return album;
     }
 }

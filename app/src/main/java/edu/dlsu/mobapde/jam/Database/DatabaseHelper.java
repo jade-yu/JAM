@@ -74,7 +74,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
         String track = "DROP TABLE IF EXISTS " + Track.TABLE_NAME + ";";
         sqLiteDatabase.execSQL(track);
         String lyrics = "DROP TABLE IF EXISTS " + Lyrics.TABLE_NAME + ";";
@@ -91,11 +90,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public long addTrack(Track track){
         SQLiteDatabase db = getWritableDatabase();
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(Track.COLUMN_TITLE, track.getTitle());
         contentValues.put(Track.COLUMN_ARTIST, track.getArtist());
         contentValues.put(Track.COLUMN_ALBUM, track.getAlbum());
-        if(track.getSaved() == true) {
+
+        if(track.getSaved()) {
             contentValues.put(Track.COLUMN_SAVED, 1);
         } else {
             contentValues.put(Track.COLUMN_SAVED, 0);
@@ -108,6 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public long addPlaylist(Playlist playlist){
         SQLiteDatabase db = getWritableDatabase();
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(Playlist.COLUMN_NAME, playlist.getPlaylistname());
         contentValues.put(Playlist.COLUMN_POSITION, playlist.getPosition());
@@ -323,16 +325,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.query(Lyrics.TABLE_NAME, null, null, null, null, null, null );
     }
 
-    public Cursor getAllPlaylistCursor() {
-        SQLiteDatabase db = getReadableDatabase();
-
-        return db.query(Playlist.TABLE_NAME, null, null, null, null, null, null );
-    }
-
     public Cursor getAllTracksfromPlaylist(long playlistid){
         SQLiteDatabase db = getReadableDatabase();
 
         return db.query(TRACKANDPLAYLIST, null, COLUMN_PLAYLISTID + "=?", new String[]{playlistid+""}, null, null, null);
+    }
+
+    public Cursor getAllPlaylistCursor() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        return db.query(Playlist.TABLE_NAME, null, null, null, null, null, null );
     }
 
     public Cursor getAllLyrics(long trackid){

@@ -420,6 +420,7 @@ public class PlaySongActivity extends AppCompatActivity {
             album = albumCursor.getString(albumartColumn);
         }
 
+        albumCursor.close();
         return album;
     }
 

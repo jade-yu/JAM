@@ -84,8 +84,13 @@ public class TracksFragment extends Fragment {
 
         int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
 
+        int permissionCheck2 = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+        }
+        if (permissionCheck2 != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
 
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
@@ -113,6 +118,8 @@ public class TracksFragment extends Fragment {
                 } while (musicCursor.moveToNext());
             }
 
+            musicCursor.close();
+
             Collections.sort(tracks, new Comparator<Track>(){
                 public int compare(Track a, Track b){
                     return a.getTitle().compareTo(b.getTitle());
@@ -139,8 +146,8 @@ public class TracksFragment extends Fragment {
                 albumArts.add(null);
             }
 
+            albumCursor.close();
         }
-
         return albumArts;
     }
 
