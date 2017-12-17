@@ -197,10 +197,12 @@ public class ArtistsFragment extends Fragment {
                 int albumartColumn = albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
                 boolean flag = false;
 
-                while(albumCursor.moveToNext() && !flag) {
-                    albumArts.add(albumCursor.getString(albumartColumn));
-                    flag = true;
-                }
+                do {
+                    if(albumCursor.getString(albumartColumn) != null){
+                        albumArts.add(albumCursor.getString(albumartColumn));
+                        flag = true;
+                    }
+                } while(albumCursor.moveToNext() && !flag);
 
                 if(!flag)
                     albumArts.add(null);
